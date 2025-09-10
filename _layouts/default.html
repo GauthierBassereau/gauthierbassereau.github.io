@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ page.title | default: site.title }}</title>
+  <link rel="stylesheet" href="/assets/main.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <img class="avatar" src="/assets/images/bio-photo.jpeg" alt="Gauthier" />
+    <h1 class="name">Gauthier Bassereau</h1>
+    <p>Deep Learning, Robotics.</p>
+    <ul class="links">
+      <li><a href="https://github.com/GauthierBassereau">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/gauthier-bassereau-82b404235/">LinkedIn</a></li>
+      <li><a href="mailto:gauthier.bassereau@gmail.com">gauthier.bassereau@gmail.com</a></li>
+      <li><a href="tel:+33651042482">+33 6 51 04 24 82</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    {{ content }}
+  </main>
+</body>
+</html>
