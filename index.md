@@ -8,13 +8,14 @@ title: Home
   <li class="timeline-item">
     <span class="dot"></span>
     <div class="entry-top">
-      <a class="entry-title" href="{{ post.url }}">{{ post.title }}</a>
+      <span class="entry-title">{{ post.title }}</span>
       <span class="entry-date">{{ post.date | date: "%B %-d, %Y" }}</span>
     </div>
     {% assign summary_text = post.summary | default: post.excerpt %}
     {% if summary_text %}
       <p class="entry-summary">{{ summary_text | strip_html | strip_newlines }}</p>
     {% endif %}
+    <a class="block-link" href="{{ post.url }}" aria-label="Read: {{ post.title }}"></a>
   </li>
 {% endfor %}
 </ul>
