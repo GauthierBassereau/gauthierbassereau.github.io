@@ -5,6 +5,7 @@ url: "https://gauthierbassereau.github.io"
 
 remote_theme: mmistakes/minimal-mistakes
 minimal_mistakes_skin: "air"   # try: air, contrast, mint, default
+header: false
 search: false
 
 # Social + SEO
