@@ -62,7 +62,7 @@ a{color:inherit;text-decoration:underline}
 }
 .timeline-item:hover{background:rgba(0,0,0,.04)}
 .timeline-item .dot{
-  position:absolute;left:12px;top:1.5em;margin-left:-2px;
+  position:absolute;left:12px;top:1.1em;margin-left:-3px;
   width:6px;height:6px;border-radius:2px;background:var(--ink)
 }
 .entry-top{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:10px}
