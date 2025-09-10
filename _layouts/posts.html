@@ -9,12 +9,14 @@
   <link rel="stylesheet" href="/assets/main.css" />
 </head>
 <body>
+  <!-- Intentionally no global header/intro on post pages -->
   <main class="post">
     <a class="back" href="/">← Back</a>
     <h1 class="post-title">{{ page.title }}</h1>
     <p class="post-date">{{ page.date | date: "%B %-d, %Y" }}</p>
     <article class="post-body">
-      {{ content }}
+      {%- assign parts = content | split: site.excerpt_separator -%}
+      {{ parts | last }}
     </article>
     <a class="back bottom" href="/">← Back</a>
   </main>
