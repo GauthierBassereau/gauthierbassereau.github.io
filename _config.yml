@@ -4,7 +4,7 @@ description: "Deep Learning Engineer — projects, notes, and experiments."
 # when the repo is gauthierbassereau.github.io, use your root URL:
 url: "https://gauthierbassereau.github.io"
 
-theme: minimal-mistakes-jekyll
+remote_theme: mmistakes/minimal-mistakes
 minimal_mistakes_skin: "dark"   # try: air, contrast, mint, default
 search: false
 
@@ -39,6 +39,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-include-cache
+  - jekyll-remote-theme
 
 # Defaults (layouts & options)
 defaults:
