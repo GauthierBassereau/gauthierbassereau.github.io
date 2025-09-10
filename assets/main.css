@@ -53,15 +53,15 @@ a{color:inherit;text-decoration:underline}
 .section-title{font-size:20px;margin:18px 0 12px}
 
 /* ====== Timeline ====== */
-.timeline{list-style:none;margin:0;padding:0 0 0 20px;position:relative}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
 .timeline:before{
-  content:"";position:absolute;left:4px;top:0;bottom:0;width:1px;background:rgba(0,0,0,.25)
+  content:"";position:absolute;left:12px;top:0;bottom:0;width:1px;background:rgba(0,0,0,.25)
 }
 .timeline-item{
-  position:relative;margin:18px 0;padding-left:0
+  position:relative;margin:18px 0;padding-left:28px
 }
 .timeline-item .dot{
-  position:absolute;left:0;top:.9em;
+  position:absolute;left:12px;top:1.05em;margin-left:-4px;
   width:8px;height:8px;border-radius:50%;background:var(--ink)
 }
 .entry-top{
