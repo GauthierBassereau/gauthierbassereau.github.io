@@ -1,6 +1,6 @@
 ---
 layout: post
-title: World Models as policies for Robot 
+title: World Model as a Robot Policy 
 summary: Creation of a world model, conditioned on memory, text and actions.
 ---
 <!--more-->
