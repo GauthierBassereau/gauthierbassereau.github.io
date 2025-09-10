@@ -2,19 +2,21 @@
 layout: default
 title: Home
 ---
-
-<div class="intro">
-<p>I work on deep learning and robotics. This site collects projects and experiments. My objective is to be Tony Stark and share what I learn along the way.</p>
-</div>
-
 ## Posts
 
-<ul class="posts">
+<ul class="timeline">
 {% assign posts_by_date = site.posts | sort: 'date' | reverse %}
 {% for post in posts_by_date %}
-  <li>
-    <span class="date">{{ post.date | date: "%b %d, %Y" }}</span>
-    <a href="{{ post.url }}">{{ post.title }}</a>
+  <li class="timeline-item">
+    <span class="dot"></span>
+    <div class="entry-top">
+      <span class="entry-date">{{ post.date | date: "%b %d, %Y" }}</span>
+      <a class="entry-title" href="{{ post.url }}">{{ post.title }}</a>
+    </div>
+    {% assign summary_text = post.summary | default: post.excerpt %}
+    {% if summary_text %}
+      <p class="entry-summary">{{ summary_text | strip_html | strip_newlines }}</p>
+    {% endif %}
   </li>
 {% endfor %}
 </ul>
