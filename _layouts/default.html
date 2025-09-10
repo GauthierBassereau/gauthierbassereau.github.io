@@ -5,21 +5,33 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>{{ page.title | default: site.title }}</title>
   <link rel="stylesheet" href="/assets/main.css" />
+  <meta name="theme-color" content="#f7f6ef" />
 </head>
 <body>
-  <aside class="sidebar">
-    <img class="avatar" src="/assets/images/bio-photo.jpeg" alt="Gauthier" />
-    <h1 class="name">Gauthier Bassereau</h1>
-    <p>Deep Learning, Robotics.</p>
-    <ul class="links">
-      <li><a href="https://github.com/GauthierBassereau">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/gauthier-bassereau-82b404235/">LinkedIn</a></li>
-      <li><a href="mailto:gauthier.bassereau@gmail.com">gauthier.bassereau@gmail.com</a></li>
-      <li><a href="tel:+33651042482">+33 6 51 04 24 82</a></li>
-    </ul>
-  </aside>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <h1 class="site-title">Gauthier Bassereau</h1>
+      <img class="site-avatar" src="/assets/images/bio-photo.jpeg" alt="Gauthier Bassereau" />
+    </div>
+
+    <p class="site-subline">
+      Paris · <a href="mailto:gauthier.bassereau@gmail.com">gauthier.bassereau@gmail.com</a> ·
+      <a href="https://github.com/GauthierBassereau">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/gauthier-bassereau-82b404235/">LinkedIn</a> ·
+      <a href="tel:+33651042482">+33 6 51 04 24 82</a>
+    </p>
+
+    <hr class="thin" />
+    <div class="intro">
+      <p>I work on deep learning and robotics. This site collects projects and experiments. My objective is to be Tony Stark and share what I learn along the way.</p>
+    </div>
+    <hr class="thin" />
+  </header>
+
   <main class="content">
     {{ content }}
   </main>
+
+  <footer class="site-footer"></footer>
 </body>
 </html>
