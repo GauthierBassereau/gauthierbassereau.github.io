@@ -18,7 +18,7 @@ As my first internship, I had the honour of being part of Jay Carlson's R&D team
 - Data: Synchronized video frames and robot joint logs via this repo’s dataset tools.
 - Demo: Closed-loop control achieving reliable pick-and-hand-off (see video below).
 
-### Video Demo of Automated Pick and Handoff Task
+### Video Demo of Automated Pick and Handoff Task (speed up)
 
 <div class="video-embed">
   <iframe
@@ -41,10 +41,10 @@ Photos of the robot environment and the teleoperation device used during develop
 <table>
   <tr>
     <td align="center">
-      <img src="assets/images/2024-09-01-virtual-incision/robot_setup.jpeg" alt="Surgical robot setup" width="360">
+      <img src="/assets/images/2024-09-01-virtual-incision/robot_setup.jpeg" alt="Surgical robot setup" width="360">
     </td>
     <td align="center">
-      <img src="assets/images/2024-09-01-virtual-incision/teleop.jpeg" alt="Teleoperation device" width="360">
+      <img src="/assets/images/2024-09-01-virtual-incision/teleop.jpeg" alt="Teleoperation device" width="360">
     </td>
   </tr>
 </table>
@@ -61,21 +61,21 @@ Photos of the robot environment and the teleoperation device used during develop
 <table>
   <tr>
     <td align="center">
-      <img src="assets/images/2024-09-01-virtual-incision/train_loss.png" width="360"><br>
+      <img src="/assets/images/2024-09-01-virtual-incision/train_loss.png" width="360"><br>
       <sub>Train loss</sub>
     </td>
     <td align="center">
-      <img src="assets/images/2024-09-01-virtual-incision/val_loss.png" width="360"><br>
+      <img src="/assets/images/2024-09-01-virtual-incision/val_loss.png" width="360"><br>
       <sub>Val loss</sub>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="assets/images/2024-09-01-virtual-incision/train_joint_1.png" width="360"><br>
+      <img src="/assets/images/2024-09-01-virtual-incision/train_joint_1.png" width="360"><br>
       <sub>Train joint_1</sub>
     </td>
     <td align="center">
-      <img src="assets/images/2024-09-01-virtual-incision/val_joint_1.png" width="360"><br>
+      <img src="/assets/images/2024-09-01-virtual-incision/val_joint_1.png" width="360"><br>
       <sub>Val joint_1</sub>
     </td>
   </tr>
