@@ -2,16 +2,14 @@
 layout: default
 title: Home
 ---
-## Posts
-
 <ul class="timeline">
 {% assign posts_by_date = site.posts | sort: 'date' | reverse %}
 {% for post in posts_by_date %}
   <li class="timeline-item">
     <span class="dot"></span>
     <div class="entry-top">
-      <span class="entry-date">{{ post.date | date: "%b %d, %Y" }}</span>
       <a class="entry-title" href="{{ post.url }}">{{ post.title }}</a>
+      <span class="entry-date">{{ post.date | date: "%B %-d, %Y" }}</span>
     </div>
     {% assign summary_text = post.summary | default: post.excerpt %}
     {% if summary_text %}
