@@ -49,6 +49,10 @@ a {
 
 /* Hide built-in page title on the home page and add our own */
 .page.home-page .page__title { display: none !important; }
+.page.home-page .intro {
+  margin-top: 3rem;   /* push the text lower */
+  margin-bottom: 2rem;
+}
 .custom-posts-title { font-size: 1.25rem; margin: 0 0 1rem 0; }
 
 /* Unify fonts + sizes in author sidebar */
@@ -57,13 +61,15 @@ a {
 .author__bio,
 .author__name {
   font-family: var(--mono-font) !important;
-  color: #000000 !important;
+  color: #000 !important;
+  font-size: 1rem !important;   /* all the same size */
 }
 .author__urls li a { font-family: var(--mono-font) !important; }
 .author__content,
 .author__urls { font-size: 1rem !important; }
-.author__name { font-size: 1.25rem !important; font-weight: 700; }
-
+.author__name {
+  font-weight: 700;
+}
 /* Normalize body text size in content */
 .page__content,
 .page__content p,
