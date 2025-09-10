@@ -50,7 +50,7 @@ a {
 /* Hide built-in page title on the home page and add our own */
 .page.home-page .page__title { display: none !important; }
 .page.home-page .intro {
-  margin-top: 3rem;   /* push the text lower */
+  margin-top: 10rem;   /* push the text lower */
   margin-bottom: 2rem;
 }
 .custom-posts-title { font-size: 1.25rem; margin: 0 0 1rem 0; }
