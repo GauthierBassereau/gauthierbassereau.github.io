@@ -6,6 +6,8 @@ url: "https://gauthierbassereau.github.io"
 remote_theme: mmistakes/minimal-mistakes
 minimal_mistakes_skin: "air"   # try: air, contrast, mint, default
 search: false
+atom_feed:
+  hide: true
 
 # Social + SEO
 repository: "GauthierBassereau/gauthierbassereau.github.io"
