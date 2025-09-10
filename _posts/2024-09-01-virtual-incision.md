@@ -3,10 +3,11 @@ layout: post
 title: Surgical Robot Imitation Learning (R&D Internship)
 summary: Developed an Action Chunking Transformer for a dual-arm surgical robot, trained for tasks like needle pick and hand-off. The policy was deployed for real-time inference on an NVIDIA Holoscan pipeline.
 ---
+<!--more-->
 
 As my first internship, I had the honour of being part of Jay Carlson's R&D team at Virtual Incision, a surgical robotic company based in Nebraska.
 
-<!--more-->
+---
 
 ### Internship Context & Highlights
 
@@ -23,7 +24,7 @@ As my first internship, I had the honour of being part of Jay Carlson's R&D team
   <iframe
     src="https://www.youtube.com/embed/wZuMUCP2N-o"
     title="Automated Pick and Handoff"
-    frameborder="0"
+    frameborder="3"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
   </iframe>
