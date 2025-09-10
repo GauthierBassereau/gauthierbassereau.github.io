@@ -8,7 +8,7 @@ As my first internship, I had the honour of being part of Jay Carlson's R&D team
 
 <!--more-->
 
-## Internship Context & Highlights
+### Internship Context & Highlights
 
 - Organization: [Virtual Incision](https://www.virtualincision.com/) — surgical robotics R&D.
 - Device: Dual-arm surgical robot performing needle pick-and-hand-off.
@@ -17,7 +17,7 @@ As my first internship, I had the honour of being part of Jay Carlson's R&D team
 - Data: Synchronized video frames and robot joint logs via this repo’s dataset tools.
 - Demo: Closed-loop control achieving reliable pick-and-hand-off (see video below).
 
-## Video Demo of Automated Pick and Handoff Task
+### Video Demo of Automated Pick and Handoff Task
 
 <div class="video-embed">
   <iframe
@@ -33,7 +33,7 @@ As my first internship, I had the honour of being part of Jay Carlson's R&D team
 - ACT-style model predicting short action sequences from images.
 - Dataset tools to extract frames from video and align robot logs.
 
-## Setup Photos
+### Setup Photos
 
 Photos of the robot environment and the teleoperation device used during development.
 
@@ -48,14 +48,14 @@ Photos of the robot environment and the teleoperation device used during develop
   </tr>
 </table>
 
-## Data
+### Data
 
 - Each dataset root contains one or more `...demos/` folders with `demo_*` subfolders.
 - Each `demo_*` has an `index.csv` referencing saved frames (`frame_*.npy`) and associated robot logs.
 - Frames are stored as RGB numpy arrays; logs include joint angles used as training targets.
 - Basic transforms/normalization and optional augmentations are configured in `act_il.yaml`.
 
-## Training Logs (example)
+### Training Logs (example)
 
 <table>
   <tr>
@@ -79,27 +79,3 @@ Photos of the robot environment and the teleoperation device used during develop
     </td>
   </tr>
 </table>
-
----
-
-- All training artifacts are stored under `Archive/<ENGINE>_<MODEL>_<TAG>_<TIMESTAMP>/` (config, logs, plots, checkpoints).
-- Engine entrypoint: `main.py` with modes `train|resume|visualize|export`.
-
-## Quickstart
-
-1) Environment (Python 3.10+):
-
-```
-pip install torch torchvision
-pip install numpy pandas pyyaml matplotlib albumentations opencv-python av colorama
-```
-
-2) Configure data paths in `source/configs/act_il.yaml` (`train_data_path`, `val_data_path`).
-
-3) Train / Visualize / Export:
-
-```
-python main.py train --engine ClassicIL --config act_il
-python main.py visualize --archive_model ClassicIL_ACTModel_Vanilla_20240907_194141
-python main.py export --archive_model ClassicIL_ACTModel_Vanilla_20240907_194141
-```
