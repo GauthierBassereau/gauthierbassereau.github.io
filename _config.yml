@@ -10,11 +10,11 @@ search: false
 
 # Social + SEO
 repository: "GauthierBassereau/gauthierbassereau.github.io"
-logo: "/assets/images/avatar.jpg"   # add your picture here (optional)
+logo: "/assets/images/bio-photo.heic"   # add your picture here (optional)
 author:
   name: "Gauthier Bassereau"
-  avatar: "/assets/images/avatar.jpg"
-  bio: "Deep Learning Engineer. CV, robotics, simulation, and MLOps."
+  avatar: "/assets/images/bio-photo.heic"
+  bio: "Deep Learning | Robotics."
   location: "Paris, FR"
   links:
     - label: "GitHub"
@@ -22,13 +22,13 @@ author:
       url: "https://github.com/GauthierBassereau"
     - label: "LinkedIn"
       icon: "fab fa-linkedin"
-      url: "https://www.linkedin.com/in/<your-handle>/"
+      url: "https://www.linkedin.com/in/gauthier-bassereau-82b404235/"
     - label: "Email"
       icon: "fas fa-envelope"
-      url: "mailto:<you>@email.com"
+      url: "gauthier.bassereau@gmail.com"
     - label: "Phone"
       icon: "fas fa-phone"
-      url: "tel:+1234567890"
+      url: "tel:+33651042482"
 
 # Build & content
 permalink: /:categories/:title/
