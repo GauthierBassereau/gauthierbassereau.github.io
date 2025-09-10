@@ -84,16 +84,16 @@ a {
   padding-left: .5rem;
 }
 
-.timeline-item::before {
-  content: "";
-  position: absolute;
-  left: -6px;
-  top: .6em;
-  width: 10px;
-  height: 10px;
-  background: #000000;
-  border-radius: 50%;
-}
+// .timeline-item::before {
+//   content: "";
+//   position: absolute;
+//   left: -6px;
+//   top: .6em;
+//   width: 10px;
+//   height: 10px;
+//   background: #000000;
+//   border-radius: 50%;
+// }
 
 .timeline-date {
   font-size: .9rem;
