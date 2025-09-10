@@ -1,20 +1,18 @@
-title: "Gauthier Bassereau"
-name: "Gauthier Bassereau"
-description: "Deep Learning Engineer — projects, notes, and experiments."
-# when the repo is gauthierbassereau.github.io, use your root URL:
+# title: "Gauthier Bassereau"
+# name: "Gauthier Bassereau"
+# description: "Deep Learning Engineer — projects, notes, and experiments."
 url: "https://gauthierbassereau.github.io"
 
 remote_theme: mmistakes/minimal-mistakes
-minimal_mistakes_skin: "dark"   # try: air, contrast, mint, default
+minimal_mistakes_skin: "air"   # try: air, contrast, mint, default
 search: false
 
 # Social + SEO
 repository: "GauthierBassereau/gauthierbassereau.github.io"
-logo: "/assets/images/bio-photo.jpeg"   # add your picture here (optional)
 author:
   name: "Gauthier Bassereau"
   avatar: "/assets/images/bio-photo.jpeg"
-  bio: "Deep Learning | Robotics."
+  bio: "Deep Learning, Robotics."
   location: "Paris, FR"
   links:
     - label: "GitHub"
@@ -23,10 +21,10 @@ author:
     - label: "LinkedIn"
       icon: "fab fa-linkedin"
       url: "https://www.linkedin.com/in/gauthier-bassereau-82b404235/"
-    - label: "Email"
+    - label: "gauthier.bassereau@gmail.com"
       icon: "fas fa-envelope"
       url: "gauthier.bassereau@gmail.com"
-    - label: "Phone"
+    - label: "+33651042482"
       icon: "fas fa-phone"
       url: "tel:+33651042482"
 
