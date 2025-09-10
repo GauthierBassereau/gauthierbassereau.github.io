@@ -1,55 +1,6 @@
-# title: "Gauthier Bassereau"
-# name: "Gauthier Bassereau"
-# description: "Deep Learning Engineer — projects, notes, and experiments."
+title: "Gauthier Bassereau"
 url: "https://gauthierbassereau.github.io"
-
-remote_theme: mmistakes/minimal-mistakes
-minimal_mistakes_skin: default
-header: false
-search: false
-
-# Social + SEO
-repository: "GauthierBassereau/gauthierbassereau.github.io"
-author:
-  name: "Gauthier Bassereau"
-  avatar: "/assets/images/bio-photo.jpeg"
-  bio: "Deep Learning, Robotics."
-  location: "Paris, FR"
-  links:
-    - label: "GitHub"
-      icon: "fab fa-github"
-      url: "https://github.com/GauthierBassereau"
-    - label: "LinkedIn"
-      icon: "fab fa-linkedin"
-      url: "https://www.linkedin.com/in/gauthier-bassereau-82b404235/"
-    - label: "gauthier.bassereau@gmail.com"
-      icon: "fas fa-envelope"
-      url: "gauthier.bassereau@gmail.com"
-    - label: "+33651042482"
-      icon: "fas fa-phone"
-      url: "tel:+33651042482"
-
-# Build & content
-permalink: /:categories/:title/
-paginate: 6
-paginate_path: /page:num/
-plugins:
-  - jekyll-paginate
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-include-cache
-  - jekyll-remote-theme
-
-# Defaults (layouts & options)
-defaults:
-  - scope: { path: "", type: posts }
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      share: true
-      toc: true
-      toc_sticky: true
-
-# Navigation (wired to _data/navigation.yml below)
-include: ["_pages"]
+permalink: /:title/
+markdown: kramdown
+# Make Jekyll build excerpts up to the marker
+excerpt_separator: "<!--more-->"

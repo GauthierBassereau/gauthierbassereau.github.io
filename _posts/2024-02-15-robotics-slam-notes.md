@@ -1,12 +1,11 @@
 ---
-title: "Notes on Visual SLAM Experiments"
+layout: post
+title: Notes on Visual SLAM Experiments
+summary: A running log of visual SLAM tests, metrics, and failure cases with brief setup notes.   # optional; otherwise use <!--more-->
 ---
 
-Quick placeholder post to test the timeline.
+Short opening paragraph shown on the post page.
 
-- Dataset: TUM RGB-D
-- Backend: g2o
-- Result: stable trajectories with loop closures.
+<!--more-->
 
-More details soon.
-
+Full content starts after this marker…

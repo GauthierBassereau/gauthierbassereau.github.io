@@ -1,12 +1,11 @@
 ---
-title: "Tiny CNN for MNIST — from Scratch"
+layout: post
+title: Notes on Visual SLAM Experiments
+summary: A running log of visual SLAM tests, metrics, and failure cases with brief setup notes.   # optional; otherwise use <!--more-->
 ---
 
-Another placeholder post to populate the timeline. I trained a small
-convolutional model on MNIST with a minimal framework to keep the stack simple.
+Short opening paragraph shown on the post page.
 
-- Layers: Conv → ReLU → Pool → FC
-- Accuracy: ~99%
+<!--more-->
 
-Code and write-up coming later.
-
+Full content starts after this marker…
