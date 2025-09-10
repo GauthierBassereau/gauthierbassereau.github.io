@@ -6,6 +6,7 @@ url: "https://gauthierbassereau.github.io"
 
 theme: minimal-mistakes-jekyll
 minimal_mistakes_skin: "dark"   # try: air, contrast, mint, default
+search: false
 
 # Social + SEO
 repository: "GauthierBassereau/gauthierbassereau.github.io"
@@ -25,6 +26,9 @@ author:
     - label: "Email"
       icon: "fas fa-envelope"
       url: "mailto:<you>@email.com"
+    - label: "Phone"
+      icon: "fas fa-phone"
+      url: "tel:+1234567890"
 
 # Build & content
 permalink: /:categories/:title/
@@ -36,12 +40,6 @@ plugins:
   - jekyll-seo-tag
   - jekyll-include-cache
 
-# Collections (for a Projects grid)
-collections:
-  projects:
-    output: true
-    permalink: /projects/:path/
-
 # Defaults (layouts & options)
 defaults:
   - scope: { path: "", type: posts }
@@ -52,11 +50,6 @@ defaults:
       share: true
       toc: true
       toc_sticky: true
-  - scope: { path: "", type: projects }
-    values:
-      layout: single
-      classes: wide
-      author_profile: true
 
 # Navigation (wired to _data/navigation.yml below)
 include: ["_pages"]
