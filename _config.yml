@@ -10,10 +10,10 @@ search: false
 
 # Social + SEO
 repository: "GauthierBassereau/gauthierbassereau.github.io"
-logo: "/assets/images/bio-photo.heic"   # add your picture here (optional)
+logo: "/assets/images/bio-photo.jpeg"   # add your picture here (optional)
 author:
   name: "Gauthier Bassereau"
-  avatar: "/assets/images/bio-photo.heic"
+  avatar: "/assets/images/bio-photo.jpeg"
   bio: "Deep Learning | Robotics."
   location: "Paris, FR"
   links:
