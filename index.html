@@ -1,6 +1,7 @@
 ---
 layout: single
 title: Posts
+classes: home-page
 author_profile: true
 atom_feed:
   hide: true
@@ -13,6 +14,8 @@ atom_feed:
     build useful, hands-on systems and share what I learn along the way.
   </p>
 </div>
+
+<h1 class="page__title custom-posts-title">Posts</h1>
 
 <ul class="timeline">
   {% assign posts_by_date = site.posts | sort: 'date' | reverse %}
