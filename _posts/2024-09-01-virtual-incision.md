@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Surgical Robot Imitation Learning (internship at Virtual Incision)
+title: Surgical Robot Imitation Learning (R&D Internship)
 summary: Developed an Action Chunking Transformer for a dual-arm surgical robot, trained for tasks like needle pick and hand-off. The policy was deployed for real-time inference on an NVIDIA Holoscan pipeline.
 ---
 
@@ -19,9 +19,15 @@ As my first internship, I had the honour of being part of Jay Carlson's R&D team
 
 ## Video Demo of Automated Pick and Handoff Task
 
-[![Watch the video](https://img.youtube.com/vi/wZuMUCP2N-o/maxresdefault.jpg)](https://youtu.be/wZuMUCP2N-o)
-
-(https://youtu.be/wZuMUCP2N-o)
+<div class="video-embed">
+  <iframe
+    src="https://www.youtube.com/embed/wZuMUCP2N-o"
+    title="Automated Pick and Handoff"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+  </iframe>
+  </div>
 
 - Classic imitation learning engine with train/resume/visualize/export modes.
 - ACT-style model predicting short action sequences from images.
@@ -34,10 +40,10 @@ Photos of the robot environment and the teleoperation device used during develop
 <table>
   <tr>
     <td align="center">
-      <img src="assest/images/2024-09-01-virtual-incision/robot_setup.jpeg" alt="Surgical robot setup" width="360">
+      <img src="assets/images/2024-09-01-virtual-incision/robot_setup.jpeg" alt="Surgical robot setup" width="360">
     </td>
     <td align="center">
-      <img src="assest/images/2024-09-01-virtual-incision/teleop.jpeg" alt="Teleoperation device" width="360">
+      <img src="assets/images/2024-09-01-virtual-incision/teleop.jpeg" alt="Teleoperation device" width="360">
     </td>
   </tr>
 </table>
@@ -54,21 +60,21 @@ Photos of the robot environment and the teleoperation device used during develop
 <table>
   <tr>
     <td align="center">
-      <img src="assest/images/2024-09-01-virtual-incision/train_loss.png" width="360"><br>
+      <img src="assets/images/2024-09-01-virtual-incision/train_loss.png" width="360"><br>
       <sub>Train loss</sub>
     </td>
     <td align="center">
-      <img src="assest/images/2024-09-01-virtual-incision/val_loss.png" width="360"><br>
+      <img src="assets/images/2024-09-01-virtual-incision/val_loss.png" width="360"><br>
       <sub>Val loss</sub>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="assest/images/2024-09-01-virtual-incision/train_joint_1.png" width="360"><br>
+      <img src="assets/images/2024-09-01-virtual-incision/train_joint_1.png" width="360"><br>
       <sub>Train joint_1</sub>
     </td>
     <td align="center">
-      <img src="assest/images/2024-09-01-virtual-incision/val_joint_1.png" width="360"><br>
+      <img src="assets/images/2024-09-01-virtual-incision/val_joint_1.png" width="360"><br>
       <sub>Val joint_1</sub>
     </td>
   </tr>
