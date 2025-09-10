@@ -3,7 +3,7 @@
 # description: "Deep Learning Engineer — projects, notes, and experiments."
 url: "https://gauthierbassereau.github.io"
 
-# remote_theme: mmistakes/minimal-mistakes
+remote_theme: mmistakes/minimal-mistakes
 minimal_mistakes_skin: default
 header: false
 search: false
