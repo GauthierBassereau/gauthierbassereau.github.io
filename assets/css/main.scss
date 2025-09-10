@@ -1,0 +1,81 @@
+---
+---
+// Load Minimal Mistakes base styles
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
+@import "minimal-mistakes";
+
+/* === Custom overrides === */
+
+/* Typography: terminal-like mono font */
+:root {
+  --mono-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+html, body {
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-family: var(--mono-font) !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.page__title, .site-title, .site-subtitle {
+  font-family: var(--mono-font) !important;
+  color: #000000 !important;
+}
+
+a {
+  color: #000000 !important;
+  text-decoration: underline;
+}
+
+/* Remove any grey backgrounds/borders from theme containers */
+.masthead,
+.page__footer,
+.page__footer-follow,
+.page__footer-copyright,
+.site-footer,
+.page,
+.initial-content {
+  background: #ffffff !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Intro paragraph spacing */
+.intro { margin: 1rem 0 2rem 0; }
+
+/* Timeline styles */
+.timeline {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding-left: 1.25rem; /* room for the vertical line */
+  border-left: 2px solid #000000;
+}
+
+.timeline-item {
+  position: relative;
+  margin: 0 0 1rem 0;
+  padding-left: .5rem;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: .6em;
+  width: 10px;
+  height: 10px;
+  background: #000000;
+  border-radius: 50%;
+}
+
+.timeline-date {
+  font-size: .9rem;
+  opacity: .9;
+  margin-right: .5rem;
+}
+
+.timeline-title { font-weight: 700; }
+
