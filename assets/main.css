@@ -53,7 +53,7 @@ a {
   margin: 8px 0 0 0;
   text-align: center;
   font-size: var(--fs-bigtitle);
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-normal);
   letter-spacing: .2px;
 }
 .site-avatar {
@@ -122,8 +122,8 @@ a {
 .entry-card .dot {
   position: absolute;
   left: 12px;
-  top: 1.2em;
-  margin-left: -3px;
+  top: 1.4em;
+  margin-left: -2px;
   width: 6px;
   height: 6px;
   border-radius: 2px;
@@ -146,7 +146,7 @@ a {
 }
 .entry-summary {
   margin: 8px 0 0 0;
-  color: var(--ink);
+  color: var(--muted);
 }
 
 /* ====== Post page ====== */
@@ -221,5 +221,5 @@ a {
 .last-updated {
   margin: 6px 0;
   font-size: var(--fs-small);
-  font-weight: var(--fw-normal);
+  font-weight: var(--fw-small);
 }
