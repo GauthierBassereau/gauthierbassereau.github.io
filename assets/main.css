@@ -14,6 +14,7 @@
 
   /* Font weights */
   --fw-normal: 400;
+  --fw-medium: 500;
   --fw-bold: 600;
 }
 
@@ -52,7 +53,7 @@ a {
   margin: 8px 0 0 0;
   text-align: center;
   font-size: var(--fs-bigtitle);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-medium);
   letter-spacing: .2px;
 }
 .site-avatar {
@@ -132,7 +133,7 @@ a {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: baseline;
-  gap: 10px;
+  gap: 5px;
 }
 .entry-title {
   font-size: var(--fs-title);
