@@ -8,9 +8,9 @@
 
   /* Font sizes */
   --fs-base: 16px;
-  --fs-small: 14px;
-  --fs-title: 20px;
-  --fs-bigtitle: 32px;
+  --fs-small: 16px;
+  --fs-title: 16px;
+  --fs-bigtitle: 24px;
 
   /* Font weights */
   --fw-normal: 400;
