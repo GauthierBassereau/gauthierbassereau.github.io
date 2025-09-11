@@ -104,10 +104,13 @@ a{color:inherit;text-decoration:underline}
 .site-footer{
   max-width:820px;
   margin:24px auto 32px;
-  padding:0 20px;
+  padding:12px 20px 0;
+  text-align:center;
   color:var(--muted);
+  border-top:1px solid rgba(0,0,0,.15);
 }
 .last-updated{
   margin:0;
   font:12px/1 var(--mono);
 }
+.site-footer .last-updated + .last-updated{margin-top:6px}
