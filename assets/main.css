@@ -8,10 +8,10 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Font sizes */
-  --fs-base: 16px;
-  --fs-small: 16px;
-  --fs-title: 16px;
-  --fs-bigtitle: 24px;
+  --fs-base: 12px;
+  --fs-small: 12px;
+  --fs-title: 12px;
+  --fs-bigtitle: 20px;
 
   /* Font weights */
   --fw-normal: 400;
