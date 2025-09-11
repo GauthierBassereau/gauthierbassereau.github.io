@@ -5,6 +5,7 @@
 
   /* Fonts */
   --serif: ui-serif, Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Font sizes */
   --fs-base: 16px;
@@ -28,7 +29,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--paper);
-  font: var(--fs-base)/1.6 var(--serif);
+  font: var(--fs-base)/1.6 var(--mono);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
