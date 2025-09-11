@@ -1,7 +1,7 @@
 ---
 layout: post
 title: World Model as a Robot Policy 
-summary: Creation of a world model, conditioned on memory, text and actions.
+summary: Creation of a flow matching World Model, conditioned on memory, text and actions.
 ---
 <!--more-->
 
