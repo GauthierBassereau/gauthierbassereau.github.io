@@ -67,7 +67,7 @@ a{color:inherit;text-decoration:underline}
 .entry-card:hover{background:rgba(0,0,0,.04)}
 .entry-card:focus{outline:2px solid rgba(0,0,0,.5);outline-offset:2px}
 .entry-card .dot{
-  position:absolute;left:12px;top:1.3em;margin-left:-3px;
+  position:absolute;left:12px;top:1.3em;margin-left:-2.5px;
   width:6px;height:6px;border-radius:2px;background:var(--ink)
 }
 .entry-top{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:10px}
