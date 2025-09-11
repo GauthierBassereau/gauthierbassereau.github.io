@@ -5,6 +5,6 @@ summary: Joined the Resolution Enhancement Technique team. Built a GPU-accelerat
 ---
 <!--more-->
 
-Internship at STMicroelectronics, in the R&D team joining the Resolution Enhancement Team
+R&D Internship at STMicroelectronics, joined the Resolution Enhancement Team.
 
 ---
