@@ -35,17 +35,6 @@ a{color:inherit;text-decoration:underline}
   width:64px;height:64px;border-radius:50%;
   justify-self:end;object-fit:cover;border:1px solid var(--ink);
 }
-.avatar-wrap{position:relative;justify-self:end}
-.cv-download{
-  position:absolute;left:-8px;top:50%;transform:translate(-100%, -50%);
-  display:inline-flex;align-items:center;justify-content:center;
-  width:28px;height:28px;border-radius:50%;
-  border:1px solid var(--ink);background:var(--paper);
-  text-decoration:none;color:var(--ink);
-}
-.cv-download:hover{background:rgba(0,0,0,.06)}
-.cv-download:focus{outline:2px solid rgba(0,0,0,.5);outline-offset:2px}
-.cv-download svg{width:14px;height:14px;display:block}
 .site-subline{
   margin: 6px 0 28px 0;
   text-align:center;
