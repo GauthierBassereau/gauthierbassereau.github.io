@@ -212,10 +212,11 @@ a {
 
 /* ====== Small screens ====== */
 @media (max-width: 640px) {
-  /* Keep middle column for title; fix avatar size */
-  .site-header__inner { grid-template-columns: 1fr 56px 1fr; }
-  .site-title { grid-column: 2; }
-  .site-avatar { grid-column: 3; width: 56px; height: 56px; }
+  /* On phones: left-align title and subline, avatar on right */
+  .site-header__inner { grid-template-columns: 1fr 56px; }
+  .site-title { grid-column: 1; text-align: left; }
+  .site-subline { text-align: left; }
+  .site-avatar { grid-column: 2; width: 56px; height: 56px; }
   .entry-date { display: none; }
 }
 
