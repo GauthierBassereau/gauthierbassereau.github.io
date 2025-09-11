@@ -64,7 +64,7 @@ a {
   border-radius: 50%;
   justify-self: end;
   object-fit: cover;
-  border: 1px solid var(--ink);
+  border: 0px solid var(--ink);
 }
 .site-subline {
   margin: 8px 0 32px 0;
