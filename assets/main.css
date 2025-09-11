@@ -8,10 +8,10 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Font sizes */
-  --fs-base: 12px;
-  --fs-small: 12px;
-  --fs-title: 12px;
-  --fs-bigtitle: 20px;
+  --fs-base: 14px;
+  --fs-small: 14px;
+  --fs-title: 14px;
+  --fs-bigtitle: 24px;
 
   /* Font weights */
   --fw-normal: 400;
@@ -124,7 +124,7 @@ a {
 .entry-card .dot {
   position: absolute;
   left: 12px;
-  top: 1.6em;
+  top: 1.7em;
   margin-left: -2px;
   width: 6px;
   height: 6px;
