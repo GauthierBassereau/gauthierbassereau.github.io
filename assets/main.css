@@ -55,7 +55,7 @@ a {
   text-align: center;
   font-family: var(--serif);
   font-size: var(--fs-bigtitle);
-  font-weight: var(--fw-normal);
+  font-weight: var(--fw-medium);
   letter-spacing: .2px;
 }
 .site-avatar {
