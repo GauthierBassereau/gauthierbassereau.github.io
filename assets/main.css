@@ -176,8 +176,8 @@ a {
   margin: 0 0 20px;
 }
 .post-body {
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: var(--fs-normal);
+  line-height: 1.5;
 }
 .post-body p { margin: 14px 0; }
 
