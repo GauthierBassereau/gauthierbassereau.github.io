@@ -5,6 +5,8 @@ summary: I took part in my university's first attempt at building a quantum comp
 ---
 <!--more-->
 
-This is big.
+Need to write.
 
 ---
+
+Need to write.
