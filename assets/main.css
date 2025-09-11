@@ -8,8 +8,8 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Font sizes */
+  --fs-small: 10px;
   --fs-base: 14px;
-  --fs-small: 14px;
   --fs-title: 14px;
   --fs-bigtitle: 28px;
 
@@ -69,7 +69,7 @@ a {
 .site-subline {
   margin: 8px 0 32px 0;
   text-align: center;
-  font-size: var(--fs-small);
+  font-size: var(--fs-base);
   font-weight: var(--fw-normal);
   color: var(--muted);
 }
@@ -171,7 +171,7 @@ a {
   margin: 0 0 8px;
 }
 .post-date {
-  font-size: var(--fs-small);
+  font-size: var(--fs-base);
   color: var(--muted);
   margin: 0 0 20px;
 }
@@ -223,6 +223,6 @@ a {
 }
 .last-updated {
   margin: 6px 0;
-  font-size: var(--fs-normal);
+  font-size: var(--fs-small);
   font-weight: var(--fw-normal);
 }
