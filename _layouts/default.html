@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gauthier Bassereau · {{ page.title | default: site.title }}</title>
+  <link rel="stylesheet" href="/assets/main.css" />
+  <meta name="theme-color" content="#f7f6ef" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <h1 class="site-title">Gauthier Bassereau</h1>
+      <!-- Avatar temporarily disabled
+      <img class="site-avatar" src="/assets/images/bio-photo.png" alt="Gauthier Bassereau" />
+      -->
+    </div>
+
+    <p class="site-subline">
+      Paris · 
+      <a href="https://github.com/GauthierBassereau">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/gauthier-bassereau-82b404235/">LinkedIn</a> ·
+      <a href="mailto:gauthier.bassereau@gmail.com">gauthier.bassereau@gmail.com</a> ·
+      <a href="tel:+33651042482">+33651042482</a>
+    </p>
+
+    {% unless page.layout == 'post' %}
+    <div class="intro">
+      <p>I am working on robotic intelligence, focusing on how robots can learn, plan, and interact. 
+        This website showcases my key projects and research. 
+        I’ll be finishing my master’s in June 2026, and will be looking for opportunities, feel free to reach out!</p>
+    </div>
+    {% endunless %}
+  </header>
+
+  <main class="content">
+    {{ content }}
+  </main>
+  <footer class="site-footer">
+    <p class="last-updated">Last updated: {{ site.time | date: "%B %-d, %Y" }}</p>
+    <p class="last-updated">(Yes, I was heavily inspired by <a href="{{ site.pi_url | default: 'https://www.physicalintelligence.company' }}">Physical Intelligence</a>'s website)</p>
+  </footer>
+</body>
+</html>

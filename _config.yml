@@ -1,0 +1,6 @@
+title: "Gauthier Bassereau"
+url: "https://gauthierbassereau.github.io"
+permalink: /:title/
+markdown: kramdown
+# Make Jekyll build excerpts up to the marker
+excerpt_separator: "<!--more-->"

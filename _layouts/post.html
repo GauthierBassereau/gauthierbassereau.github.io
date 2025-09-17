@@ -1,0 +1,29 @@
+---
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ page.title }} — {{ site.title }}</title>
+  <link rel="stylesheet" href="/assets/main.css" />
+  <meta name="theme-color" content="#f7f6ef" />
+  
+</head>
+<body>
+  <!-- Intentionally no global header/intro on post pages -->
+  <main class="post">
+    <a class="back" href="/">← Back</a>
+    <h1 class="post-title">{{ page.title }}</h1>
+    <p class="post-date">{{ page.date | date: "%B %-d, %Y" }}</p>
+    <article class="post-body">
+      {%- assign parts = content | split: site.excerpt_separator -%}
+      {{ parts | last }}
+    </article>
+    <a class="back bottom" href="/">← Back</a>
+  </main>
+  <footer class="site-footer">
+    <p class="last-updated">Last updated: {{ site.time | date: "%B %-d, %Y at %H:%M" }}</p>
+  </footer>
+</body>
+</html>
