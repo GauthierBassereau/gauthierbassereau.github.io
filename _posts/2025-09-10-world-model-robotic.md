@@ -70,7 +70,7 @@ Here’s how each contributes:
 - Decode proprioception to obtain actions  
 - Optionally decode images for visualization  
 
-This is a simple idea, and I believe it is close to what Toyota Research Institute recently published ([LBMs](https://arxiv.org/pdf/2504.02792)), or the paper [Video Generation as Robot Policy](https://arxiv.org/pdf/2508.00795), as well as Unitree’s more recent project [Unifolm-World-Model-Action](https://github.com/unitreerobotics/unifolm-world-model-action/tree/main).  
+This is a simple idea, and I believe it is close to what Toyota Research Institute recently published [LBMs](https://arxiv.org/pdf/2504.02792), or [Video Generation as Robot Policy](https://arxiv.org/pdf/2508.00795), as well as Unitree’s more recent project [Unifolm-World-Model-Action](https://github.com/unitreerobotics/unifolm-world-model-action/tree/main).  
 
 ---
 
