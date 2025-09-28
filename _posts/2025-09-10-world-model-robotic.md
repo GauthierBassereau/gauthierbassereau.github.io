@@ -45,7 +45,7 @@ This separation provides two major benefits:
 1. **Scalability** – Planning leverages abundant web-scale data, while the controller focuses on domain-specific motor control.  
 2. **Robustness** – The controller can generalize in varied environments, while the planner generalizes across tasks and modalities.  
 
-![Robotic System](archive/images/excalidraw.png)
+![Robotic System](archive/images/2025-09-10-world-model-robotic/excalidraw.png)
 
 ---
 
