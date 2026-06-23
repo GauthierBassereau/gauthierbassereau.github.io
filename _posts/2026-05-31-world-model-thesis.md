@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Diffusion World Model for Robot Planning
+title: Diffusion World Models for Robotics
 summary: A 400M-parameter latent world model trained on mixed robot and human-interaction video for action-conditioned UR5 prediction and offline visual planning.
 home_rank: 1
 home_featured: true
