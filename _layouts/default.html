@@ -7,7 +7,7 @@
   <title>Gauthier Bassereau · {{ page.title | default: site.title }}</title>
   <link rel="stylesheet" href="/assets/main.css" />
   <meta name="theme-color" content="#f7f6ef" />
-  <meta name="description" content="Robotics and machine-learning portfolio by Gauthier Bassereau: world models, diffusion models, visuomotor policies, and GPU simulation." />
+  <meta name="description" content="Robotics and machine-learning portfolio by Gauthier Bassereau." />
 </head>
 
 <body{% if page.url == "/" %} class="home"{% endif %}>
@@ -25,16 +25,11 @@
 
     {% if page.url == "/" %}
       <section class="intro" aria-labelledby="intro-title">
-        <p class="intro-kicker">Robotics / ML engineer</p>
-        <h1 id="intro-title">Building models that help robots predict, plan, and act in the real world.</h1>
+        <h1 id="intro-title">Robotics and machine learning projects.</h1>
         <p class="intro-copy">
-          I work across diffusion world models, visuomotor imitation learning, and GPU-accelerated scientific ML.
-          Open to internship opportunities.
+          I am interested in robot learning, planning, generative models, and GPU-accelerated scientific computing.
+          This page collects selected projects and research notes. I am currently looking for internship opportunities.
         </p>
-        <div class="intro-actions">
-          <a class="button button--primary" href="/assets/CV/Gauthier_Bassereau_RESUME.pdf">Resume</a>
-          <a class="button" href="mailto:gauthier.bassereau@gmail.com">Contact</a>
-        </div>
       </section>
     {% endif %}
   </header>
