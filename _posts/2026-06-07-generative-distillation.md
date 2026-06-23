@@ -3,7 +3,7 @@ layout: post
 title: Few-Step Generative Distillation on a 2D Diffusion Teacher
 summary: DMD and DMD2 distillation of a DDPM teacher into a one-step generator on a Gaussian-to-checkerboard transport task.
 home_rank: 3
-eyebrow: Generative modeling
+eyebrow: Personal Project
 thumbnail: /assets/images/2026-06-07-generative-distillation/distill_dmd2_samples.png
 thumbnail_alt: One-step DMD2 student samples overlaid on checkerboard target cells
 impact: Reproduced DMD and DMD2 objectives in a controlled 2D setting to make one-step diffusion distillation failure modes visible.

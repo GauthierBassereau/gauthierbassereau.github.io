@@ -12,8 +12,7 @@ title: Home
 <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}">
 {% else %}
 <span class="project-thumb__placeholder">
-<span>{{ post.eyebrow }}</span>
-<strong>Confidential project</strong>
+Confidential project
 </span>
 {% endif %}
 </a>

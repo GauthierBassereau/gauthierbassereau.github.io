@@ -9,11 +9,10 @@ thumbnail: /assets/images/2026-05-31-world-model-thesis/cem_planning_rollout.png
 thumbnail_alt: Ground-truth UR5 evaluation frames compared with a decoded CEM planning rollout
 impact: Built a latent diffusion world model that uses semantic robot-video representations for offline goal-conditioned planning.
 tags:
-  - Robot learning
-  - World models
   - Diffusion
   - DINOv2
-  - PyTorch
+  - Planning
+  - Large-scale datasets
 metrics:
   - 400M parameters
   - 1,000h passive video
