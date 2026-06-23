@@ -7,7 +7,7 @@ summary: DMD and DMD2 distillation of a DDPM teacher into a one-step generator o
 
 This was a personal project in the continuation of my work on diffusion world models for robotics. The question is simple: if a diffusion model needs hundreds of denoising steps to sample well, what objective should be used to compress it into one step without destroying the distribution?
 
-The distillation losses come directly from [DMD](https://arxiv.org/abs/2311.18828) and [DMD2](https://arxiv.org/abs/2405.14867). I am not claiming a new method here; the goal was to reproduce the gradients cleanly, understand what each loss is really pushing on, and see where they behave differently on a controlled distribution.
+The distillation losses come directly from [DMD](https://arxiv.org/abs/2311.18828) and [DMD2](https://arxiv.org/abs/2405.14867). The goal was to reproduce the gradients cleanly, understand what each loss is really pushing on, and see where they behave differently on a controlled distribution.
 
 I kept the setting in 2D so the failure modes are visible instead of hidden behind image quality. The source distribution is an isotropic Gaussian `π0`; the target `π1` is uniform over eight active cells of a 4×4 checkerboard. I first trained a DDPM teacher, then distilled it into one-step students with regression, DMD, and DMD2-style losses.
 
