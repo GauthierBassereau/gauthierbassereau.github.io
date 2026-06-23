@@ -7,7 +7,7 @@ summary: Built and deployed an ACT-style visuomotor policy for autonomous needle
 
 At [Virtual Incision](https://virtualincision.com), I developed machine-learning components for MIRA, a compact dual-arm surgical robot. The main project was a visuomotor imitation-learning policy for needle pickup and hand-off. The objective was deliberately narrow: test whether a policy trained from teleoperation data could close the loop on real hardware and produce coordinated bimanual motion.
 
-<figure>
+<figure class="media-block media-block--portrait">
   <img src="/assets/images/2024-09-10-virtual-incision/robot_setup.jpeg" alt="MIRA dual-arm robot positioned above a surgical training model">
   <figcaption>MIRA setup used for collecting demonstrations and evaluating the learned policy.</figcaption>
 </figure>
@@ -44,7 +44,7 @@ I implemented an [Action Chunking Transformer](https://arxiv.org/abs/2304.13705)
 
 The objective combines action reconstruction with KL regularization of the latent posterior. At inference time, the CVAE encoder is removed and `z` is fixed to the prior mean, producing deterministic action chunks.
 
-<figure>
+<figure class="media-block media-block--diagram">
   <img src="/assets/images/2024-09-10-virtual-incision/act-architecture.png" alt="Architecture of the Action Chunking Transformer conditional variational autoencoder">
   <figcaption>
     Original ACT architecture from
@@ -61,7 +61,7 @@ I collected approximately 100 teleoperated needle-manipulation trajectories. The
 
 Keeping trajectory boundaries intact was essential: an action chunk must never cross from the end of one demonstration into the beginning of another. Validation data was separated by demonstration rather than by individual frames to avoid measuring memorization of adjacent observations.
 
-<figure>
+<figure class="media-block media-block--medium">
   <img src="/assets/images/2024-09-10-virtual-incision/teleop.jpeg" alt="Teleoperation interface used to collect bimanual surgical robot demonstrations">
   <figcaption>Teleoperation interface used to collect synchronized visual and joint-space demonstrations.</figcaption>
 </figure>
@@ -70,7 +70,7 @@ Keeping trajectory boundaries intact was essential: an action chunk must never c
 
 I integrated the trained policy as an operator in the Holoscan video pipeline. Each incoming frame was preprocessed on the GPU, passed through the policy, and converted back from normalized model outputs to robot joint targets. Re-querying the policy as new images arrived turned the action-chunk predictor into a receding-horizon visual controller rather than a single open-loop trajectory.
 
-<figure>
+<figure class="media-block media-block--wide">
   <a href="https://youtu.be/wZuMUCP2N-o">
     <img src="https://img.youtube.com/vi/wZuMUCP2N-o/maxresdefault.jpg" alt="Autonomous needle pickup and hand-off demonstration">
   </a>
