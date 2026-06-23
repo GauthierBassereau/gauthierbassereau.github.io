@@ -5,9 +5,9 @@ summary: Implemented DMD and DMD2 for distilling a DDPM teacher into a one-step 
 ---
 <!--more-->
 
-This was a personal implementation project in the continuation of my work on diffusion world models for robotics: take a trained generative process, compress its sampling trajectory, and study what is lost when generation is forced into one or a few steps.
+This was a personal implementation project in the continuation of my work on diffusion world models for robotics. The question is simple: if a diffusion model needs hundreds of denoising steps to sample well, what objective should be used to compress it into one step without destroying the distribution?
 
-The setting is intentionally small enough to inspect directly. The source distribution is an isotropic Gaussian `π0`; the target distribution `π1` is uniform over eight active cells of a 4×4 checkerboard. The task is to learn a transport from `π0` to `π1`, first with a DDPM teacher, then with one-step students trained by regression, DMD, and DMD2-style objectives.
+I kept the setting in 2D so the failure modes are visible instead of hidden behind image quality. The source distribution is an isotropic Gaussian `π0`; the target `π1` is uniform over eight active cells of a 4×4 checkerboard. I first trained a DDPM teacher, then distilled it into one-step students with regression, DMD, and DMD2-style losses.
 
 <figure class="media-block media-block--medium">
   <img src="/assets/images/2026-06-07-generative-distillation/data_source_target.png" alt="Gaussian source samples overlaid with checkerboard target samples">
@@ -36,7 +36,7 @@ Sampling used deterministic DDIM updates. With the full 1000-step trajectory, th
   </figure>
 </div>
 
-#### Why regression is not the full problem
+#### What the distillation losses are doing
 
 The simplest distillation baseline is to precompute pairs `(z, x_teacher)` by running the teacher from Gaussian noise `z`, then train the student with MSE:
 
@@ -44,7 +44,9 @@ The simplest distillation baseline is to precompute pairs `(z, x_teacher)` by ru
   <code>L_reg = || G_theta(z) - DDIM_teacher(z) ||^2</code>
 </div>
 
-This is useful, but it is not a distribution-matching objective. It asks the student to imitate teacher samples for fixed latent seeds. If the teacher mapping is complex or the target density contains many narrow modes, the regression objective can spend capacity matching arbitrary pairings rather than correcting density error. In high-dimensional image generation, this is where pointwise losses tend to blur, average, or miss modes.
+This loss is important because it gives a transport signal. If a region of Gaussian noise is supposed to end in the top-right square, the regression pair creates a direct gradient from the current student output toward that teacher endpoint. It prevents the generator from freely putting too much mass into a single convenient region, because every latent sample has an assigned destination.
+
+But regression is also a teacher-imitation loss. It is upper-bounded by the teacher trajectory used to generate the pairs. If the teacher has artifacts, bad density, or arbitrary DDIM transport choices, the student is trained to reproduce them. In image generation this is even worse: a pointwise loss can be numerically small while still producing samples that are not on the real image manifold.
 
 DMD changes the supervision signal. Instead of asking whether a generated sample matches its paired teacher output, it asks whether the student distribution has the same score field as the teacher distribution. For a generated sample `x = G_theta(z)`, I re-noise it to `x_t`, evaluate two denoisers, and use their clean-sample predictions as a score-difference proxy:
 
@@ -61,7 +63,15 @@ The teacher denoiser is frozen and represents the target distribution. The fake 
   <code>L_DMD = 0.5 || x - target ||^2</code>
 </div>
 
-This was the central implementation point of the project: not a new architecture, but the mechanics required to make the DMD gradient usable inside a small DDPM/DDIM pipeline.
+DMD alone is not enough. The KL direction behind this kind of score-distillation objective is mode-seeking: it can strongly penalize samples that lie in low teacher-density regions, but missing modes do not automatically create gradients because the generator never samples there. If the student collapses much of its mass into a sharp blob inside one valid square, that blob is not obviously wrong from the point of view of the local DMD update. The absent squares are absent; they do not push back.
+
+This is where the regression loss is useful. It builds a gradient bridge from each source sample to a teacher endpoint. A collapse cannot stay isolated because many regression pairs still point outside the collapsed region. In my implementation, the stable Stage A objective was therefore:
+
+<div class="technical-equation">
+  <code>L_stageA = lambda_dmd L_DMD + lambda_reg L_reg</code>
+</div>
+
+The point is not that regression is more principled. It is less principled. But it supplies the low-variance transport constraint that pure DMD is missing.
 
 #### Stabilizing the DMD update
 
@@ -92,9 +102,17 @@ The last point is the most interesting scientifically. Paper settings often samp
   </figure>
 </div>
 
-#### DMD2
+#### Why DMD2 replaces regression with GAN
 
-DMD2 modifies the recipe in two important ways: remove the regression loss and add an adversarial loss, while updating the fake denoiser/discriminator on a faster time scale than the generator. The motivation is strong for images. Regression encourages the generator to follow fixed teacher trajectories; a GAN loss instead penalizes samples that leave the real data support, while DMD keeps the score-based distribution-matching pressure.
+DMD2 makes the same correction, but without capping the student at the teacher's pairwise samples. It removes the regression term and adds a GAN loss against real target samples:
+
+<div class="technical-equation">
+  <code>L_stageB = lambda_dmd L_DMD + lambda_gan L_GAN</code>
+</div>
+
+The role of the GAN loss is close to the role regression played above: punish pathological mass placement that the DMD/KL term may tolerate. The difference is that the discriminator is anchored to the real data distribution, not to teacher-generated endpoints. In principle this is better: the student can be pushed toward reality even if the teacher transport is imperfect.
+
+The price is stability. Once regression is removed, there is no fixed pairwise target holding the generator in place. The fake denoiser must track a student distribution that is moving during training, and stale fake scores give bad DMD gradients. This is why DMD2 uses a two-time-scale update: several fake-denoiser updates for each generator update, so the fake denoiser follows the current student distribution closely enough before its score difference is used.
 
 In this implementation, DMD2 reuses the same training loop with:
 
@@ -124,11 +142,13 @@ I evaluated each sampler with energy distance and checkerboard occupancy error. 
 | DMD only | 1 | 1.66849 ± 0.02383 | 0.83412 ± 0.00590 |
 | DMD2 | 1 | 0.01071 ± 0.00091 | 0.38040 ± 0.00216 |
 
-The important result is not that DMD2 wins here. It does not. The useful observation is that the toy distribution under-stresses exactly the regime where DMD2 is designed to help.
+The important result is not that DMD2 wins here. It does not. That is the interesting part.
 
-Natural images occupy tiny, structured regions of a huge ambient space. Modes correspond to semantic and geometric configurations with extremely small volume, and pointwise regression can move samples into visually implausible averages even when the numeric loss is low. Here, each checkerboard mode is a full 2D square with large Lebesgue measure, hard boundaries, and no internal texture. A deterministic MSE transport from Gaussian noise to teacher samples can already map substantial latent regions into substantial target regions. There are no fine visual modes to sharpen and no high-dimensional manifold to stay on.
+The checkerboard is multimodal, but it is not image-like. Natural images occupy tiny, structured regions of a huge ambient space. Modes correspond to semantic and geometric configurations with extremely small volume. If a generator misses one of those regions, regression and KL-type objectives can give a misleading sense of progress because most of the ambient space is already invalid.
 
-That explains why the regression-only ablation was competitive. It learned a usable transport because the support was broad and low-dimensional. DMD and DMD2 added the correct distributional machinery, but their extra score-estimation and adversarial components introduced variance that the task did not strongly need. I would expect the balance to change on robotics world-model rollouts or image-like observations, where missing a narrow mode corresponds to losing a physically meaningful future.
+Here, each mode is a full 2D square with large Lebesgue measure. The target support is not a thin manifold; it is eight fat boxes. A deterministic MSE transport from Gaussian noise to teacher samples can already map large latent regions into large target regions. There is no texture to sharpen, no semantic submode to recover, and no high-dimensional manifold constraint.
+
+That explains why regression-only was competitive in my runs. It learned a usable transport because the support was broad and low-dimensional. DMD and DMD2 add the machinery I care about for harder settings, but on this toy problem their score-estimation and adversarial variance are not strongly compensated by the data geometry. I would expect the balance to change on diffusion world-model rollouts or image-like robot observations, where missing a narrow mode means losing a physically meaningful future.
 
 [Source code](https://github.com/GauthierBassereau/GenerativeDistillation) ·
 [DMD paper](https://arxiv.org/abs/2311.18828) ·
