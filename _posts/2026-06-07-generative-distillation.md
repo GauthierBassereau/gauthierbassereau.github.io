@@ -1,11 +1,13 @@
 ---
 layout: post
 title: Few-Step Generative Distillation on a 2D Diffusion Teacher
-summary: Implemented DMD and DMD2 for distilling a DDPM teacher into a one-step generator on a Gaussian-to-checkerboard transport task.
+summary: DMD and DMD2 distillation of a DDPM teacher into a one-step generator on a Gaussian-to-checkerboard transport task.
 ---
 <!--more-->
 
-This was a personal implementation project in the continuation of my work on diffusion world models for robotics. The question is simple: if a diffusion model needs hundreds of denoising steps to sample well, what objective should be used to compress it into one step without destroying the distribution?
+This was a personal project in the continuation of my work on diffusion world models for robotics. The question is simple: if a diffusion model needs hundreds of denoising steps to sample well, what objective should be used to compress it into one step without destroying the distribution?
+
+The distillation losses come directly from [DMD](https://arxiv.org/abs/2311.18828) and [DMD2](https://arxiv.org/abs/2405.14867). I am not claiming a new method here; the goal was to reproduce the gradients cleanly, understand what each loss is really pushing on, and see where they behave differently on a controlled distribution.
 
 I kept the setting in 2D so the failure modes are visible instead of hidden behind image quality. The source distribution is an isotropic Gaussian `π0`; the target `π1` is uniform over eight active cells of a 4×4 checkerboard. I first trained a DDPM teacher, then distilled it into one-step students with regression, DMD, and DMD2-style losses.
 
@@ -16,7 +18,7 @@ I kept the setting in 2D so the failure modes are visible instead of hidden behi
 
 #### Teacher model
 
-I implemented a DDPM teacher with an MLP noise predictor conditioned on sinusoidal timestep embeddings. Training used the standard epsilon-prediction objective:
+The teacher is a DDPM with an MLP noise predictor conditioned on sinusoidal timestep embeddings. Training used the standard epsilon-prediction objective:
 
 <div class="technical-equation">
   <code>x_t = sqrt(alpha_bar_t) x_0 + sqrt(1 - alpha_bar_t) eps</code><br>
@@ -56,7 +58,7 @@ DMD changes the supervision signal. Instead of asking whether a generated sample
   <code>grad_DMD ~= (x_fake - x_real) / || x - x_real ||</code>
 </div>
 
-The teacher denoiser is frozen and represents the target distribution. The fake denoiser is trained online on student samples and represents the current generator distribution. Their difference estimates how the generator should move samples to reduce distribution mismatch. In the code, I implemented this with the usual stop-gradient target trick:
+The teacher denoiser is frozen and represents the target distribution. The fake denoiser is trained online on student samples and represents the current generator distribution. Their difference estimates how the generator should move samples to reduce distribution mismatch. I used the usual stop-gradient target trick:
 
 <div class="technical-equation">
   <code>target = stopgrad(x - grad_DMD)</code><br>
@@ -65,7 +67,7 @@ The teacher denoiser is frozen and represents the target distribution. The fake 
 
 DMD alone is not enough. The KL direction behind this kind of score-distillation objective is mode-seeking: it can strongly penalize samples that lie in low teacher-density regions, but missing modes do not automatically create gradients because the generator never samples there. If the student collapses much of its mass into a sharp blob inside one valid square, that blob is not obviously wrong from the point of view of the local DMD update. The absent squares are absent; they do not push back.
 
-This is where the regression loss is useful. It builds a gradient bridge from each source sample to a teacher endpoint. A collapse cannot stay isolated because many regression pairs still point outside the collapsed region. In my implementation, the stable Stage A objective was therefore:
+This is where the regression loss is useful. It builds a gradient bridge from each source sample to a teacher endpoint. A collapse cannot stay isolated because many regression pairs still point outside the collapsed region. The stable Stage A objective was therefore:
 
 <div class="technical-equation">
   <code>L_stageA = lambda_dmd L_DMD + lambda_reg L_reg</code>
@@ -75,7 +77,7 @@ The point is not that regression is more principled. It is less principled. But 
 
 #### Stabilizing the DMD update
 
-The DMD loss was the least forgiving part of the implementation. The clean prediction
+The DMD loss was the least forgiving part. The clean prediction
 
 <div class="technical-equation">
   <code>x0_hat = (x_t - sqrt(1 - alpha_bar_t) eps_hat) / sqrt(alpha_bar_t)</code>
@@ -114,12 +116,12 @@ The role of the GAN loss is close to the role regression played above: punish pa
 
 The price is stability. Once regression is removed, there is no fixed pairwise target holding the generator in place. The fake denoiser must track a student distribution that is moving during training, and stale fake scores give bad DMD gradients. This is why DMD2 uses a two-time-scale update: several fake-denoiser updates for each generator update, so the fake denoiser follows the current student distribution closely enough before its score difference is used.
 
-In this implementation, DMD2 reuses the same training loop with:
+For this 2D run, I kept the adversarial part deliberately small:
 
 - `lambda_reg = null`;
 - `lambda_gan > 0`;
-- a discriminator implemented as the same MLP family with scalar output;
-- multiple fake-denoiser updates per generator update.
+- a simple MLP discriminator with scalar output;
+- 10 fake-denoiser updates per generator update.
 
 <figure class="media-block media-block--medium">
   <img src="/assets/images/2026-06-07-generative-distillation/distill_dmd2_samples.png" alt="DMD2 one-step student samples">
