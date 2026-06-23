@@ -2,6 +2,27 @@
 layout: post
 title: Few-Step Generative Distillation on a 2D Diffusion Teacher
 summary: DMD and DMD2 distillation of a DDPM teacher into a one-step generator on a Gaussian-to-checkerboard transport task.
+home_rank: 3
+eyebrow: Generative modeling
+thumbnail: /assets/images/2026-06-07-generative-distillation/distill_dmd2_samples.png
+thumbnail_alt: One-step DMD2 student samples overlaid on checkerboard target cells
+impact: Reproduced DMD and DMD2 objectives in a controlled 2D setting to make one-step diffusion distillation failure modes visible.
+tags:
+  - Diffusion
+  - Distillation
+  - DMD
+  - PyTorch
+metrics:
+  - 1-step generator
+  - DDPM teacher
+  - Source code
+links:
+  - label: Code
+    url: https://github.com/GauthierBassereau/GenerativeDistillation
+  - label: DMD
+    url: https://arxiv.org/abs/2311.18828
+  - label: DMD2
+    url: https://arxiv.org/abs/2405.14867
 ---
 <!--more-->
 

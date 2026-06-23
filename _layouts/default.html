@@ -7,32 +7,36 @@
   <title>Gauthier Bassereau · {{ page.title | default: site.title }}</title>
   <link rel="stylesheet" href="/assets/main.css" />
   <meta name="theme-color" content="#f7f6ef" />
+  <meta name="description" content="Robotics and machine-learning portfolio by Gauthier Bassereau: world models, diffusion models, visuomotor policies, and GPU simulation." />
 </head>
 
-<body>
+<body{% if page.url == "/" %} class="home"{% endif %}>
   <header class="site-header">
-    <div class="site-header__inner">
-      <h1 class="site-title">Gauthier Bassereau</h1>
-      <!-- Avatar temporarily disabled
-      <img class="site-avatar" src="/assets/images/bio-photo.png" alt="Gauthier Bassereau" />
-      -->
-    </div>
+    <nav class="site-nav" aria-label="Primary">
+      <a class="site-title" href="/">Gauthier Bassereau</a>
+      <div class="site-links">
+        <span>Paris</span>
+        <a href="https://github.com/GauthierBassereau">GitHub</a>
+        <a href="https://www.linkedin.com/in/gauthier-bassereau-82b404235/">LinkedIn</a>
+        <a href="mailto:gauthier.bassereau@gmail.com">Email</a>
+        <a href="/assets/CV/Gauthier_Bassereau_RESUME.pdf">Resume</a>
+      </div>
+    </nav>
 
-    <p class="site-subline">
-      Paris ·
-      <a href="https://github.com/GauthierBassereau">GitHub</a> ·
-      <a href="https://www.linkedin.com/in/gauthier-bassereau-82b404235/">LinkedIn</a> ·
-      <a href="mailto:gauthier.bassereau@gmail.com">gauthier.bassereau@gmail.com</a> ·
-      <a href="tel:+33651042482">+33651042482</a>
-    </p>
-
-    {% unless page.layout == 'post' %}
-    <div class="intro">
-      <p>I am working on how robots can learn, plan, and interact in the real world.
-        This website showcases my key projects and research.
-        Looking for work opportunities, reach out!</p>
-    </div>
-    {% endunless %}
+    {% if page.url == "/" %}
+      <section class="intro" aria-labelledby="intro-title">
+        <p class="intro-kicker">Robotics / ML engineer</p>
+        <h1 id="intro-title">Building models that help robots predict, plan, and act in the real world.</h1>
+        <p class="intro-copy">
+          I work across diffusion world models, visuomotor imitation learning, and GPU-accelerated scientific ML.
+          Open to internship opportunities.
+        </p>
+        <div class="intro-actions">
+          <a class="button button--primary" href="/assets/CV/Gauthier_Bassereau_RESUME.pdf">Resume</a>
+          <a class="button" href="mailto:gauthier.bassereau@gmail.com">Contact</a>
+        </div>
+      </section>
+    {% endif %}
   </header>
 
   <main class="content">

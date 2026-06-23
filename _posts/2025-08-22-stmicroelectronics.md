@@ -2,6 +2,24 @@
 layout: post
 title: Differentiable Lithography Simulator
 summary: Built a GPU-accelerated, differentiable lithography simulator.
+home_rank: 4
+eyebrow: Confidential R&D internship
+impact: Built differentiable optics and resist simulation components in PyTorch for GPU-accelerated computational lithography research.
+tags:
+  - Scientific ML
+  - GPU simulation
+  - Differentiable physics
+  - PyTorch
+  - Optimization
+metrics:
+  - In-house simulator
+  - SVD optics
+  - Gradient-based ILT
+links:
+  - label: STMicroelectronics
+    url: https://www.st.com
+  - label: Reference
+    url: https://arxiv.org/html/2409.15306v1
 ---
 <!--more-->
 
@@ -62,4 +80,4 @@ Both approaches were made fully differentiable, I was able to train a resist mod
 
 ---
 
-I am unable to share any results, but I really enjoyed working on this project. It combined physics, math, GPU programming, and deep learning into one project.  
+I am unable to share any results, but I really enjoyed working on this project. It combined physics, math, GPU programming, and deep learning into one project.

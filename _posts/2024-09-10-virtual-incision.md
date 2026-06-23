@@ -2,6 +2,28 @@
 layout: post
 title: Learning Bimanual Needle Manipulation from Demonstrations
 summary: Built and deployed an ACT-style visuomotor policy for autonomous needle pickup and hand-off on a dual-arm surgical robot.
+home_rank: 2
+eyebrow: Real robot deployment
+thumbnail: /assets/images/2024-09-10-virtual-incision/robot_setup.jpeg
+thumbnail_alt: MIRA dual-arm surgical robot above a surgical training model
+impact: Took a visuomotor imitation-learning policy from teleoperated demonstrations to closed-loop execution on physical dual-arm hardware.
+tags:
+  - Imitation learning
+  - ACT
+  - Surgical robotics
+  - Holoscan
+  - TensorRT
+metrics:
+  - Real hardware
+  - 100 demonstrations
+  - Video rollout
+links:
+  - label: Code
+    url: https://github.com/GauthierBassereau/Surgical-Robot-Imitation-Learning
+  - label: Video
+    url: https://youtu.be/wZuMUCP2N-o
+  - label: ACT
+    url: https://arxiv.org/abs/2304.13705
 ---
 <!--more-->
 

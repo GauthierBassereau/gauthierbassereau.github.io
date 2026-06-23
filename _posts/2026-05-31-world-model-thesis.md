@@ -2,6 +2,27 @@
 layout: post
 title: Diffusion World Model for Robot Planning
 summary: A 400M-parameter latent world model trained on mixed robot and human-interaction video for action-conditioned UR5 prediction and offline visual planning.
+home_rank: 1
+home_featured: true
+eyebrow: Master's thesis
+thumbnail: /assets/images/2026-05-31-world-model-thesis/cem_planning_rollout.png
+thumbnail_alt: Ground-truth UR5 evaluation frames compared with a decoded CEM planning rollout
+impact: Built a latent diffusion world model that uses semantic robot-video representations for offline goal-conditioned planning.
+tags:
+  - Robot learning
+  - World models
+  - Diffusion
+  - DINOv2
+  - PyTorch
+metrics:
+  - 400M parameters
+  - 1,000h passive video
+  - UR5 planning
+links:
+  - label: Code
+    url: https://github.com/GauthierBassereau/World-Model
+  - label: Thesis
+    url: https://github.com/GauthierBassereau/World-Model/blob/main/thesis/thesis.pdf
 ---
 <!--more-->
 
