@@ -4,3 +4,7 @@ permalink: /:title/
 markdown: kramdown
 # Make Jekyll build excerpts up to the marker
 excerpt_separator: "<!--more-->"
+collections:
+  projects:
+    output: true
+    permalink: /:name/

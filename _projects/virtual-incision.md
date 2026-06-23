@@ -1,10 +1,11 @@
 ---
 layout: post
 title: Learning Bimanual Needle Manipulation from Demonstrations
+date: 2024-09-10
 summary: Built and deployed an ACT-style visuomotor policy for autonomous needle pickup and hand-off on a dual-arm surgical robot.
 home_rank: 3
 eyebrow: Research Internship
-thumbnail: /assets/images/2024-09-10-virtual-incision/robot_setup.jpeg
+thumbnail: /assets/images/virtual-incision/robot_setup.jpeg
 thumbnail_alt: MIRA dual-arm surgical robot above a surgical training model
 impact: Took a visuomotor imitation-learning policy from teleoperated demonstrations to closed-loop execution on physical dual-arm hardware.
 tags:
@@ -30,7 +31,7 @@ links:
 At [Virtual Incision](https://virtualincision.com), I developed machine-learning components for MIRA, a compact dual-arm surgical robot. The main project was a visuomotor imitation-learning policy for needle pickup and hand-off. The objective was deliberately narrow: test whether a policy trained from teleoperation data could close the loop on real hardware and produce coordinated bimanual motion.
 
 <figure class="media-block media-block--portrait">
-  <img src="/assets/images/2024-09-10-virtual-incision/robot_setup.jpeg" alt="MIRA dual-arm robot positioned above a surgical training model">
+  <img src="/assets/images/virtual-incision/robot_setup.jpeg" alt="MIRA dual-arm robot positioned above a surgical training model">
   <figcaption>MIRA setup used for collecting demonstrations and evaluating the learned policy.</figcaption>
 </figure>
 
@@ -67,7 +68,7 @@ I implemented an [Action Chunking Transformer](https://arxiv.org/abs/2304.13705)
 The objective combines action reconstruction with KL regularization of the latent posterior. At inference time, the CVAE encoder is removed and `z` is fixed to the prior mean, producing deterministic action chunks.
 
 <figure class="media-block media-block--diagram">
-  <img src="/assets/images/2024-09-10-virtual-incision/act-architecture.png" alt="Architecture of the Action Chunking Transformer conditional variational autoencoder">
+  <img src="/assets/images/virtual-incision/act-architecture.png" alt="Architecture of the Action Chunking Transformer conditional variational autoencoder">
   <figcaption>
     Original ACT architecture from
     <a href="https://arxiv.org/abs/2304.13705">Zhao et al.</a>
@@ -84,7 +85,7 @@ I collected approximately 100 teleoperated needle-manipulation trajectories. The
 Keeping trajectory boundaries intact was essential: an action chunk must never cross from the end of one demonstration into the beginning of another. Validation data was separated by demonstration rather than by individual frames to avoid measuring memorization of adjacent observations.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2024-09-10-virtual-incision/teleop.jpeg" alt="Teleoperation interface used to collect bimanual surgical robot demonstrations">
+  <img src="/assets/images/virtual-incision/teleop.jpeg" alt="Teleoperation interface used to collect bimanual surgical robot demonstrations">
   <figcaption>Teleoperation interface used to collect synchronized visual and joint-space demonstrations.</figcaption>
 </figure>
 

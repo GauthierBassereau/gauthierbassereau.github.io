@@ -1,10 +1,11 @@
 ---
 layout: post
 title: Few-Step Generative Distillation on a 2D Diffusion Teacher
+date: 2026-06-07
 summary: DMD and DMD2 distillation of a DDPM teacher into a one-step generator on a Gaussian-to-checkerboard transport task.
 home_rank: 2
 eyebrow: Personal Project
-thumbnail: /assets/images/2026-06-07-generative-distillation/distill_dmd2_samples.png
+thumbnail: /assets/images/generative-distillation/distill_dmd2_samples.png
 thumbnail_alt: One-step DMD2 student samples overlaid on checkerboard target cells
 impact: Reproduced DMD and DMD2 objectives in a controlled 2D setting to make one-step diffusion distillation failure modes visible.
 tags:
@@ -33,7 +34,7 @@ The distillation losses come directly from [DMD](https://arxiv.org/abs/2311.1882
 I kept the setting in 2D so the failure modes are visible instead of hidden behind image quality. The source distribution is an isotropic Gaussian `π0`; the target `π1` is uniform over eight active cells of a 4×4 checkerboard. I first trained a DDPM teacher, then distilled it into one-step students with regression, DMD, and DMD2-style losses.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2026-06-07-generative-distillation/data_source_target.png" alt="Gaussian source samples overlaid with checkerboard target samples">
+  <img src="/assets/images/generative-distillation/data_source_target.png" alt="Gaussian source samples overlaid with checkerboard target samples">
   <figcaption>Source and target distributions. The target is multimodal, but each mode has large 2D support rather than occupying a tiny high-dimensional image manifold.</figcaption>
 </figure>
 
@@ -50,11 +51,11 @@ Sampling used deterministic DDIM updates. With the full 1000-step trajectory, th
 
 <div class="media-grid">
   <figure class="media-block">
-    <img src="/assets/images/2026-06-07-generative-distillation/teacher_samples.png" alt="1000-step DDIM teacher samples matching the checkerboard target">
+    <img src="/assets/images/generative-distillation/teacher_samples.png" alt="1000-step DDIM teacher samples matching the checkerboard target">
     <figcaption>Full teacher sampling recovers the target modes.</figcaption>
   </figure>
   <figure class="media-block">
-    <img src="/assets/images/2026-06-07-generative-distillation/one_step_teacher_samples.png" alt="One-step DDIM teacher samples failing to match the checkerboard target">
+    <img src="/assets/images/generative-distillation/one_step_teacher_samples.png" alt="One-step DDIM teacher samples failing to match the checkerboard target">
     <figcaption>A naive one-step teacher call amplifies denoising error instead of producing a valid transport.</figcaption>
   </figure>
 </div>
@@ -116,11 +117,11 @@ The last point is the most interesting scientifically. Paper settings often samp
 
 <div class="media-grid">
   <figure class="media-block">
-    <img src="/assets/images/2026-06-07-generative-distillation/distill_nodmd_samples.png" alt="Regression-only one-step student samples">
+    <img src="/assets/images/generative-distillation/distill_nodmd_samples.png" alt="Regression-only one-step student samples">
     <figcaption>Regression-only student. Surprisingly competitive on this target.</figcaption>
   </figure>
   <figure class="media-block">
-    <img src="/assets/images/2026-06-07-generative-distillation/distill_dmd_samples.png" alt="DMD plus regression one-step student samples">
+    <img src="/assets/images/generative-distillation/distill_dmd_samples.png" alt="DMD plus regression one-step student samples">
     <figcaption>DMD + regression student. Similar global coverage, with different density artifacts.</figcaption>
   </figure>
 </div>
@@ -145,7 +146,7 @@ For this 2D run, I kept the adversarial part deliberately small:
 - 10 fake-denoiser updates per generator update.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2026-06-07-generative-distillation/distill_dmd2_samples.png" alt="DMD2 one-step student samples">
+  <img src="/assets/images/generative-distillation/distill_dmd2_samples.png" alt="DMD2 one-step student samples">
   <figcaption>DMD2-style student with GAN loss and no regression. It improves over the naive one-step teacher, but did not dominate the regression baseline on this toy problem.</figcaption>
 </figure>
 

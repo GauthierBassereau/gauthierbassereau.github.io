@@ -1,11 +1,12 @@
 ---
 layout: post
 title: Diffusion World Models for Robotics
+date: 2026-05-31
 summary: A 400M-parameter latent world model trained on mixed robot and human-interaction video for action-conditioned UR5 prediction and offline visual planning.
 home_rank: 1
 home_featured: true
 eyebrow: Master's thesis
-thumbnail: /assets/images/2026-05-31-world-model-thesis/cem_planning_rollout.png
+thumbnail: /assets/images/world-model-thesis/cem_planning_rollout.png
 thumbnail_alt: Ground-truth UR5 evaluation frames compared with a decoded CEM planning rollout
 impact: Built a latent diffusion world model that uses semantic robot-video representations for offline goal-conditioned planning.
 tags:
@@ -34,7 +35,7 @@ The central question was deliberately narrow:
 The resulting system contains a frozen DINOv2 encoder, a 400-million-parameter spatial-temporal transformer trained with Diffusion Forcing, a latent autoregressive sampler with KV caching, and a Cross-Entropy Method planner over UR5 end-effector actions.
 
 <figure class="media-block media-block--wide">
-  <img src="/assets/images/2026-05-31-world-model-thesis/method_pipeline.png" alt="End-to-end training pipeline for the DINOv2 latent diffusion world model">
+  <img src="/assets/images/world-model-thesis/method_pipeline.png" alt="End-to-end training pipeline for the DINOv2 latent diffusion world model">
   <figcaption>Frames are encoded into DINOv2 patch features, independently corrupted, and denoised by an action-conditioned spatial-temporal transformer.</figcaption>
 </figure>
 
@@ -47,7 +48,7 @@ I therefore used patch features from a frozen [DINOv2](https://arxiv.org/abs/230
 This choice follows the central observation behind [DINO-WM](https://arxiv.org/abs/2411.04983): a world model does not necessarily need to reconstruct the visual world if it can predict a representation in which distances between states are meaningful for control.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2026-05-31-world-model-thesis/imageencoders.png" alt="Comparison of autoencoding, masked autoencoding, and self-distillation objectives">
+  <img src="/assets/images/world-model-thesis/imageencoders.png" alt="Comparison of autoencoding, masked autoencoding, and self-distillation objectives">
   <figcaption>Representation objectives emphasize different information. Self-distillation directly rewards invariance in feature space rather than pixel reconstruction.</figcaption>
 </figure>
 
@@ -97,7 +98,7 @@ I trained one action-capable model on the full mixture from the beginning. I did
 The solution is a shared action-token position. Every frame receives a learned base action token. When a compatible UR5 action exists, its projected 7D embedding is added to that token. Passive video keeps only the base token. The architecture is unchanged across data sources, and action-free samples can still train visual dynamics.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2026-05-31-world-model-thesis/token_pipeline.png" alt="Construction of action, signal, register, and DINO patch tokens">
+  <img src="/assets/images/world-model-thesis/token_pipeline.png" alt="Construction of action, signal, register, and DINO patch tokens">
   <figcaption>Per-frame token construction. Action-free video and action-conditioned UR5 trajectories share the same transformer interface.</figcaption>
 </figure>
 
@@ -126,7 +127,7 @@ The final configuration uses:
 Most blocks perform spatial attention inside each frame, allowing signal, action, register, and image tokens to interact. Temporal blocks transpose the representation and perform causal attention through time for each token position. This factorization avoids full attention over every patch in every frame while still propagating information across both image regions and temporal history.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2026-05-31-world-model-thesis/token_layout_attention.png" alt="Per-frame tokens with spatial and causal temporal attention">
+  <img src="/assets/images/world-model-thesis/token_layout_attention.png" alt="Per-frame tokens with spatial and causal temporal attention">
   <figcaption>Spatial layers mix tokens within a frame; temporal layers propagate each token position causally through the sequence.</figcaption>
 </figure>
 
@@ -149,7 +150,7 @@ The model predicts the clean endpoint and derives a velocity along the straight 
 Standard video diffusion usually assigns one noise level to an entire sequence. [Diffusion Forcing](https://arxiv.org/abs/2407.01392) assigns an independent noise level to each frame. A sequence can therefore contain clean observations, uncertain intermediate states, and nearly pure-noise future states simultaneously. The causal transformer learns to denoise arbitrary subsets conditioned on whatever reliable context remains.
 
 <figure class="media-block media-block--wide">
-  <img src="/assets/images/2026-05-31-world-model-thesis/diffusion_forcing.png" alt="Comparison between teacher forcing and Diffusion Forcing">
+  <img src="/assets/images/world-model-thesis/diffusion_forcing.png" alt="Comparison between teacher forcing and Diffusion Forcing">
   <figcaption>Per-frame corruption exposes the model to imperfect histories during training, reducing the mismatch encountered when generated states are fed back during rollout.</figcaption>
 </figure>
 
@@ -163,7 +164,7 @@ The noise schedule required specific attention because a DINO frame has 196,608 
 This schedule samples low signal levels more frequently and forces the model to solve genuinely difficult denoising problems.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2026-05-31-world-model-thesis/noise_schedule_distributions.png" alt="Uniform, logit-normal, and resolution-shifted signal schedules">
+  <img src="/assets/images/world-model-thesis/noise_schedule_distributions.png" alt="Uniform, logit-normal, and resolution-shifted signal schedules">
   <figcaption>The resolution-shifted distribution allocates more training probability to strongly corrupted high-dimensional DINO states.</figcaption>
 </figure>
 
@@ -174,7 +175,7 @@ At inference time, observed frames are encoded once at signal level `1.0`, and t
 After generation, the new state must become context for the next prediction. Feeding it back as perfectly clean context creates a train-test mismatch: it is generated, but presented to the model as if it were ground truth. I instead re-noise the generated latent to a fixed feedback signal before adding it to the cache.
 
 <figure class="media-block media-block--wide">
-  <img src="/assets/images/2026-05-31-world-model-thesis/rollout_with_kv_cache.png" alt="Latent rollout with Euler denoising and transformer KV cache">
+  <img src="/assets/images/world-model-thesis/rollout_with_kv_cache.png" alt="Latent rollout with Euler denoising and transformer KV cache">
   <figcaption>Observed and generated states are cached once. Each new future latent is denoised while attending to the cached causal history, then reinserted at a controlled signal level.</figcaption>
 </figure>
 
@@ -196,7 +197,7 @@ Errors are mean squared distances in normalized DINO space, averaged over all 25
 The UR5-only model reached its best held-out checkpoint after only 2,000 optimizer steps. Increasing the proportion of external video allowed useful training to continue much longer and substantially improved rollout quality.
 
 <figure class="media-block media-block--wide">
-  <img src="/assets/images/2026-05-31-world-model-thesis/mixed_data_results.png" alt="Held-out rollout error for different proportions of UR5 and mixed video data">
+  <img src="/assets/images/world-model-thesis/mixed_data_results.png" alt="Held-out rollout error for different proportions of UR5 and mixed video data">
   <figcaption>External robot and human-interaction video reduced held-out UR5 rollout error and delayed overfitting.</figcaption>
 </figure>
 
@@ -228,7 +229,7 @@ A one-step benchmark would have suggested that the two schedules learned compara
 The best `H=20` rollout error occurred when generated states were fed back at signal level `0.8`. Strong corruption destroyed useful temporal information, but perfectly clean feedback also degraded performance.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2026-05-31-world-model-thesis/rollout_feedback_signal.png" alt="Long-horizon rollout error across feedback signal levels">
+  <img src="/assets/images/world-model-thesis/rollout_feedback_signal.png" alt="Long-horizon rollout error across feedback signal levels">
   <figcaption>Partially corrupted generated history matched the model's Diffusion Forcing training distribution better than perfectly clean feedback.</figcaption>
 </figure>
 
@@ -239,8 +240,8 @@ This result is specific to the interaction between training and representation d
 For qualitative evaluation, the model receives ten clean context frames and then only the future UR5 action sequence. The top row below is the held-out future; the bottom row is the action-conditioned latent rollout decoded by the RAE decoder.
 
 <figure class="media-block media-block--wide">
-  <img src="/assets/images/2026-05-31-world-model-thesis/rollout_comparison_part1.png" alt="Ground-truth and generated UR5 rollout at early horizons">
-  <img src="/assets/images/2026-05-31-world-model-thesis/rollout_comparison_part2.png" alt="Ground-truth and generated UR5 rollout at later horizons">
+  <img src="/assets/images/world-model-thesis/rollout_comparison_part1.png" alt="Ground-truth and generated UR5 rollout at early horizons">
+  <img src="/assets/images/world-model-thesis/rollout_comparison_part2.png" alt="Ground-truth and generated UR5 rollout at later horizons">
   <figcaption>The background remains stable and robot motion follows the actions. Object identity becomes less reliable during contact and occlusion.</figcaption>
 </figure>
 
@@ -259,7 +260,7 @@ The first term measures terminal DINO distance to the visual goal. The second di
 Before using this objective, I compared DINO feature distance with pixel MSE under random brightness and contrast perturbations. Pixel distance changed substantially even when the physical scene state did not. DINO distance tracked semantic progress toward the goal more smoothly.
 
 <figure class="media-block media-block--wide">
-  <img src="/assets/images/2026-05-31-world-model-thesis/dino_vs_pixel_distance.png" alt="DINO and pixel distance to a visual goal under photometric perturbations">
+  <img src="/assets/images/world-model-thesis/dino_vs_pixel_distance.png" alt="DINO and pixel distance to a visual goal under photometric perturbations">
   <figcaption>DINO feature distance is less sensitive than pixel MSE to nuisance brightness and contrast changes.</figcaption>
 </figure>
 
@@ -277,11 +278,11 @@ The reported run used:
 
 <div class="media-grid">
   <figure class="media-block">
-    <img src="/assets/images/2026-05-31-world-model-thesis/cem_cost_convergence.png" alt="CEM latent planning cost over iterations">
+    <img src="/assets/images/world-model-thesis/cem_cost_convergence.png" alt="CEM latent planning cost over iterations">
     <figcaption>The terminal latent cost decreases as CEM refines its proposal distribution.</figcaption>
   </figure>
   <figure class="media-block">
-    <img src="/assets/images/2026-05-31-world-model-thesis/cem_translation_error.png" alt="Terminal translation error during CEM optimization">
+    <img src="/assets/images/world-model-thesis/cem_translation_error.png" alt="Terminal translation error during CEM optimization">
     <figcaption>Cartesian terminal error converges to centimeter and sub-centimeter values.</figcaption>
   </figure>
 </div>
@@ -289,14 +290,14 @@ The reported run used:
 The latent objective correlated with physical robot configuration: as the DINO-space cost decreased, the terminal end-effector translation approached the held-out goal, reaching a combined error of approximately one centimeter.
 
 <figure class="media-block media-block--medium">
-  <img src="/assets/images/2026-05-31-world-model-thesis/cem_trajectory_3d.png" alt="Evolution of the planned end-effector trajectory during CEM optimization">
+  <img src="/assets/images/world-model-thesis/cem_trajectory_3d.png" alt="Evolution of the planned end-effector trajectory during CEM optimization">
   <figcaption>The sampled action distribution progressively contracts around a stable end-effector trajectory.</figcaption>
 </figure>
 
 The decoded rollout is the final sanity check. A lower latent cost is only useful if it corresponds to a coherent imagined transition rather than an adversarial shortcut in representation space.
 
 <figure class="media-block media-block--wide">
-  <img src="/assets/images/2026-05-31-world-model-thesis/cem_planning_rollout.png" alt="Evaluation trajectory and decoded rollout under the optimized CEM action sequence">
+  <img src="/assets/images/world-model-thesis/cem_planning_rollout.png" alt="Evaluation trajectory and decoded rollout under the optimized CEM action sequence">
   <figcaption>The optimized sequence produces an imagined motion toward the visual goal while remaining coherent over the planning horizon.</figcaption>
 </figure>
 

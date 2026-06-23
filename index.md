@@ -2,7 +2,7 @@
 layout: default
 title: Home
 ---
-{% assign projects = site.posts | sort: "home_rank" %}
+{% assign projects = site.projects | sort: "home_rank" %}
 
 <section class="project-list" aria-label="Projects">
 {% for post in projects %}

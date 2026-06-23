@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Differentiable Lithography Simulator
+date: 2025-08-22
 summary: Built a GPU-accelerated, differentiable lithography simulator.
 home_rank: 4
 eyebrow: Research Internship
