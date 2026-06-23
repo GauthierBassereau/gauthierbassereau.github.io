@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Research Internship - Differentiable Lithography Simulator
+title: Differentiable Lithography Simulator
 summary: Built a GPU-accelerated, differentiable lithography simulator.
 ---
 <!--more-->
