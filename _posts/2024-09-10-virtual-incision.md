@@ -1,66 +1,83 @@
 ---
 layout: post
-title: Research Internship - Surgical Robot Imitation Learning
-summary: Developed an Action Chunking Transformer for a dual-arm surgical robot, trained for tasks like needle pick and hand-off. The policy was deployed for real-time inference on an NVIDIA Holoscan pipeline.
+title: Learning Bimanual Needle Manipulation from Demonstrations
+summary: Built and deployed an ACT-style visuomotor policy for autonomous needle pickup and hand-off on a dual-arm surgical robot.
 ---
 <!--more-->
 
-I had the incredible opportunity to spend 4 months at [Virtual Incision](https://virtualincision.com), a surgical robotics company in Lincoln, Nebraska.  
-Their flagship robot, MIRA (Miniaturized In Vivo Robotic Assistant), is designed to make minimally invasive surgery more accessible worldwide. Unlike the massive, expensive robotic platforms you typically see in big hospitals, MIRA is portable and more affordable.
+At [Virtual Incision](https://virtualincision.com), I developed machine-learning components for MIRA, a compact dual-arm surgical robot. The main project was a visuomotor imitation-learning policy for needle pickup and hand-off. The objective was deliberately narrow: test whether a policy trained from teleoperation data could close the loop on real hardware and produce coordinated bimanual motion.
 
----
+<figure>
+  <img src="/assets/images/2024-09-10-virtual-incision/robot_setup.jpeg" alt="MIRA dual-arm robot positioned above a surgical training model">
+  <figcaption>MIRA setup used for collecting demonstrations and evaluating the learned policy.</figcaption>
+</figure>
 
-When I arrived at Virtual Incision, I didn’t have much of a background in deep learning. My experience was limited to small personal projects in computer vision. My first assignment was a real-time image super-resolution project using [NVIDIA Holoscan](https://www.nvidia.com/en-eu/edge-computing/holoscan/). This was a perfect introduction: hands-on, challenging, and a crash course in working directly with cutting-edge medical hardware.
+#### Supporting vision work
 
-After that, with the R&D team, we started discussing the most ambitious directions we could take. That’s when we came across a paper from Intuitive that applied transformers to imitation learning for surgical robotics (application of the ACT paper to surgical robotics). It was exactly the kind of challenge I wanted to dive into.
+Before the control project, I worked on two components of the imaging stack:
 
-#### Why Imitation Learning and ACT?
+- **Image super-resolution.** I trained EDSR and ESRGAN models to upscale the 1080p camera stream to 4K, then integrated inference into an NVIDIA Holoscan pipeline through TensorRT. The resulting quality-latency trade-off was not strong enough for the real-time constraint, so the project was not pursued further.
+- **Segmentation infrastructure.** I deployed the open-source Label Studio platform with a GPU-backed Segment Anything Model annotation service. The pipeline supported mask annotation for organs, robot arms, and surgical tools, and was validated by training an initial U-Net segmentation model.
 
-There are many ways to approach robot learning: reinforcement learning, model-based control, predictive control, and more. But imitation learning stood out because of its data efficiency and the recent release of the [Action Chunking Transformer](https://arxiv.org/abs/2304.13705) (ACT) paper, which showed impressive capabilities.
+#### Control as sequence prediction
 
-What makes ACT interesting is its ability to capture multimodal behaviors. A single task, like opening a door, can be done in multiple valid ways (left hand or right hand). A naïve model would average those demonstrations and end up with something unusable. ACT avoids that pitfall by modeling multiple modes of behavior—a capability that has since influenced many state-of-the-art action models. Today, nearly every imitation learning robot policy (e.g., VLAs, LBMs) uses a flow-matching or diffusion framework, which is one of the best ways to model this.
+The manipulation task consisted of locating a surgical needle, grasping it, and transferring it between the two instruments. Rather than predicting Cartesian end-effector commands or solving inverse kinematics, the policy directly predicted joint-space targets.
 
-#### Building the Proof of Concept
+Each action contained seven values per arm, including the gripper:
 
-The goal wasn’t to build something production-ready, but to show what could be possible.
+`a_t = [q_t^left, g_t^left, q_t^right, g_t^right] ∈ R^14`
 
-- **Data Collection:** With the help of Evan, I set up a pipeline to record camera feeds and timestamps while I teleoperated MIRA. I then used MIRA's logs to retrieve joint positions and corresponding timestamps, and finally synced images and joint values together. In total, I recorded ~70 demonstrations of needle pick-and-place and hand-off tasks.
-- **Data Preprocessing:** Wrote a few scripts to clean up the data, segment demonstrations, and prepare it for training.
-- **ACT from scratch:** Implemented the ACT model in PyTorch.
-- **Model Training:** Using an NVIDIA 3090, I trained the policy on this dataset. Despite the limited hardware, I managed to get a working model with mixed-precision training.
-- **Deployment:** Finally, I integrated the trained policy into a Holoscan operator for real-time inference, and for the first time, MIRA moved entirely on its own. Watching it autonomously pick up a needle and pass it between its arms was an incredible moment.
+Given the current RGB observation, the policy predicted a chunk of future targets:
 
-[GitHub repo link](https://github.com/GauthierBassereau/Surgical-Robot-Imitation-Learning)
+`π_θ(I_t) → Â_t:t+K ∈ R^(K×14)`
 
-#### Looking Back
+Predicting one action at a time gives behavioral cloning a long effective horizon: small errors alter the next observation, and the policy can progressively leave the demonstration distribution. ACT instead predicts a coherent local trajectory of length `K`. This reduces the number of high-level decisions and captures short-range temporal structure such as coordinated approach, grasp, and transfer motions.
 
-This incredible experience was entirely made possible by [Jay Carlson](https://www.linkedin.com/in/jay-d-carlson/), my supervisor, who also became a great friend. I cannot thank him enough for giving me the purpose and determination that I have today because of this experience.
+#### ACT architecture
 
----
+I implemented an [Action Chunking Transformer](https://arxiv.org/abs/2304.13705)-style conditional variational autoencoder:
 
-#### Illustrations
- 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <a href="https://youtu.be/wZuMUCP2N-o" target="_blank">
-        <img src="https://img.youtube.com/vi/wZuMUCP2N-o/hqdefault.jpg" alt="Video demo thumbnail" width="360">
-      </a><br>
-      <sub><em>Autonomous needle pick-and-hand-off demo (click to watch)</em></sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="/assets/images/2024-09-10-virtual-incision/university_presentation.jpg" alt="Team photo" width="360"><br>
-      <sub><em>My work presented at Lincoln's University</em></sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <img src="/assets/images/2024-09-10-virtual-incision/Mira.jpeg" alt="MIRA robot" width="360"><br>
-      <sub><em>MIRA surgical robot</em></sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="/assets/images/2024-09-10-virtual-incision/teleop.jpeg" alt="Teleoperation setup" width="360"><br>
-      <sub><em>Teleoperation device used for data collection</em></sub>
-    </td>
-  </tr>
-</table>
+1. During training, a transformer encoder receives the current joint state and demonstrated future action chunk. Its `[CLS]` representation parameterizes a latent variable `z`, intended to capture variation between valid demonstrations.
+2. A ResNet-18 converts the RGB frame into spatial visual tokens. These tokens are projected to the transformer dimension and combined with positional information.
+3. A transformer encoder fuses the visual representation, robot state, and latent style.
+4. A transformer decoder uses one learned query per future timestep and cross-attends to the encoded observation. A linear head maps the resulting sequence to `K × 14` joint and gripper targets.
+
+The objective combines action reconstruction with KL regularization of the latent posterior. At inference time, the CVAE encoder is removed and `z` is fixed to the prior mean, producing deterministic action chunks.
+
+<figure>
+  <img src="/assets/images/2024-09-10-virtual-incision/act-architecture.png" alt="Architecture of the Action Chunking Transformer conditional variational autoencoder">
+  <figcaption>
+    Original ACT architecture from
+    <a href="https://arxiv.org/abs/2304.13705">Zhao et al.</a>
+    The paper uses four camera views; my MIRA adaptation used the endoscopic RGB stream and a 14-dimensional bimanual action.
+  </figcaption>
+</figure>
+
+The generative formulation matters because demonstrations are not deterministic. Similar visual states can admit different approach trajectories or timing. A deterministic regressor trained across incompatible modes can average them into an action sequence that belongs to none of the demonstrations. The latent variable gives the training objective a mechanism for representing this variation, while fixing `z = 0` provides a stable inference policy.
+
+#### Demonstration pipeline
+
+I collected approximately 100 teleoperated needle-manipulation trajectories. The dataset pipeline synchronized the camera stream with robot logs, extracted task-relevant trajectory segments, preserved demonstration boundaries, padded terminal chunks, and normalized each action dimension using training-set statistics.
+
+Keeping trajectory boundaries intact was essential: an action chunk must never cross from the end of one demonstration into the beginning of another. Validation data was separated by demonstration rather than by individual frames to avoid measuring memorization of adjacent observations.
+
+<figure>
+  <img src="/assets/images/2024-09-10-virtual-incision/teleop.jpeg" alt="Teleoperation interface used to collect bimanual surgical robot demonstrations">
+  <figcaption>Teleoperation interface used to collect synchronized visual and joint-space demonstrations.</figcaption>
+</figure>
+
+#### Closed-loop deployment
+
+I integrated the trained policy as an operator in the Holoscan video pipeline. Each incoming frame was preprocessed on the GPU, passed through the policy, and converted back from normalized model outputs to robot joint targets. Re-querying the policy as new images arrived turned the action-chunk predictor into a receding-horizon visual controller rather than a single open-loop trajectory.
+
+<figure>
+  <a href="https://youtu.be/wZuMUCP2N-o">
+    <img src="https://img.youtube.com/vi/wZuMUCP2N-o/maxresdefault.jpg" alt="Autonomous needle pickup and hand-off demonstration">
+  </a>
+  <figcaption>Autonomous needle pickup and hand-off on MIRA. Click the image to watch the rollout.</figcaption>
+</figure>
+
+The resulting system completed autonomous needle pickup and hand-off on the physical robot. This was a feasibility result, not a claim of surgical autonomy: the dataset covered a narrow task distribution, recovery behavior was limited, and no formal safety or robustness study was performed. The useful result was demonstrating the complete path from teleoperated data collection to a learned bimanual policy running inside the robot's real-time perception stack.
+
+[Source code](https://github.com/GauthierBassereau/Surgical-Robot-Imitation-Learning) ·
+[ACT paper](https://arxiv.org/abs/2304.13705)

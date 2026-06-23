@@ -224,6 +224,19 @@ a {
   display: block;
   margin: 14px auto;
 }
+.post-body figure {
+  margin: 28px 0;
+}
+.post-body figure img {
+  margin: 0 auto;
+}
+.post-body figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  text-align: center;
+}
 .video-embed {
   position: relative;
   width: 100%;
