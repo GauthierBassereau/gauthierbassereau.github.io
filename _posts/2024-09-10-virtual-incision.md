@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Surgical Robot Imitation Learning (R&D Internship)
+title: Research Internship - Surgical Robot Imitation Learning
 summary: Developed an Action Chunking Transformer for a dual-arm surgical robot, trained for tasks like needle pick and hand-off. The policy was deployed for real-time inference on an NVIDIA Holoscan pipeline.
 ---
 <!--more-->

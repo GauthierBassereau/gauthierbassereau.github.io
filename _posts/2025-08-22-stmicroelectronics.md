@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Differentiable Lithography Simulator (R&D Internship)
+title: Research Internship - Differentiable Lithography Simulator
 summary: Joined the Resolution Enhancement Technique team. Built a GPU-accelerated, differentiable lithography simulator.
 ---
 <!--more-->
@@ -33,8 +33,6 @@ One of the most widely used techniques is **Optical Proximity Correction (OPC)**
 
 To achieve this, OPC software requires extremely fast and accurate **lithography simulation**.
 
----
-
 #### Lithography Simulation
 
 Lithography simulators model two key stages:
@@ -62,8 +60,6 @@ For the resist stage, I explored multiple approaches:
 
 Both approaches were fully differentiable, making them usable in optimization loops.
 
----
-
 #### Key Challenges
 
 - **Pattern representation:** Converting between binary masks, sub-pixel representations, and an in-house proprietary format, while preserving gradient flow, was especially tricky. I used techniques like **Straight-Through Estimators (STE)** to handle discrete operations in a differentiable way.  
@@ -72,8 +68,4 @@ Both approaches were fully differentiable, making them usable in optimization lo
 
 ---
 
-#### Looking Back
-
 This internship was a fantastic learning experience. It combined physics, math, GPU programming, and deep learning into one project.  
-
-My main interest lies in **robotic intelligence**, where simulators play a central role for training and testing algorithms. Even though this project was in semiconductor manufacturing, I found it highly engaging because it involved building a complex differentiable simulator, a skillset that transfers directly to the world of robotics.  
