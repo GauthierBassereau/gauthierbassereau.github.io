@@ -6,9 +6,9 @@
   --line: #d9d6cc;
   --accent: #0b6b63;
 
-  --serif: ui-serif, Georgia, "Times New Roman", serif;
   --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --serif: var(--sans);
+  --mono: var(--sans);
 }
 
 * {
@@ -58,7 +58,7 @@ img {
 
 .site-nav {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
 }
