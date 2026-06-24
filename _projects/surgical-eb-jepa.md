@@ -102,7 +102,7 @@ Evaluation compares two modes:
 | Clean context | real encoded frames | teacher-forced next-latent quality |
 | Autoregressive | generated latent history | compounding error during rollout |
 
-The clean/autoregressive gap is the metric I cared about most. A one-step predictor can look reasonable while failing as soon as its own latents become context.
+The clean/autoregressive gap is the metric we cared about most. A one-step predictor can look reasonable while failing as soon as its own latents become context.
 
 <figure class="media-block media-block--wide">
   <img src="/assets/images/surgical-eb-jepa/eval_ep15.gif" alt="Decoded evaluation rollout showing ground truth, autoregressive prediction, and clean-context prediction">
