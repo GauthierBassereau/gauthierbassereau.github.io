@@ -53,7 +53,7 @@ img {
 }
 
 .site-header {
-  padding: 36px 0 0;
+  padding: 56px 0 0;
 }
 
 .site-nav {
@@ -98,7 +98,7 @@ img {
 
 .intro {
   max-width: 720px;
-  padding: 42px 0 30px;
+  padding: 52px 0;
 }
 
 .intro h1 {
@@ -115,6 +115,10 @@ img {
   color: var(--muted);
   font-size: 16px;
   line-height: 1.65;
+}
+
+.intro-opportunity {
+  font-style: italic;
 }
 
 .content {
@@ -447,7 +451,7 @@ img {
   }
 
   .site-header {
-    padding-top: 22px;
+    padding-top: 34px;
   }
 
   .site-nav {
@@ -461,7 +465,7 @@ img {
   }
 
   .intro {
-    padding: 30px 0 24px;
+    padding: 34px 0;
   }
 
   .intro h1 {
