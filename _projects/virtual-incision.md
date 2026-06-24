@@ -5,7 +5,7 @@ date: 2024-09-10
 summary: Built and deployed an ACT-style visuomotor policy for autonomous needle pickup and hand-off on a dual-arm surgical robot.
 home_rank: 4
 eyebrow: Research Internship
-thumbnail: /assets/images/virtual-incision/robot_setup.jpeg
+thumbnail: /assets/images/virtual-incision/thumbnail.png
 thumbnail_alt: MIRA dual-arm surgical robot above a surgical training model
 impact: Took a visuomotor imitation-learning policy from teleoperated demonstrations to closed-loop execution on physical dual-arm hardware.
 tags:

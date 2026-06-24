@@ -6,7 +6,7 @@ summary: A 400M-parameter latent world model trained on mixed robot and human-in
 home_rank: 1
 home_featured: true
 eyebrow: Master's thesis
-thumbnail: /assets/images/world-model-thesis/cem_planning_rollout.png
+thumbnail: /assets/images/world-model-thesis/thumbnail.png
 thumbnail_alt: Ground-truth UR5 evaluation frames compared with a decoded CEM planning rollout
 impact: Built a latent diffusion world model that uses semantic robot-video representations for offline goal-conditioned planning.
 tags:
