@@ -142,7 +142,7 @@ img {
   display: block;
   overflow: hidden;
   align-self: start;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #eeeae0;
