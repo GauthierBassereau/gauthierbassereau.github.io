@@ -3,7 +3,7 @@ layout: post
 title: Differentiable Lithography Simulator
 date: 2025-08-22
 summary: Built a GPU-accelerated, differentiable lithography simulator.
-home_rank: 4
+home_rank: 5
 eyebrow: Research Internship
 impact: Built differentiable optics and resist simulation components in PyTorch for GPU-accelerated computational lithography research.
 tags:
