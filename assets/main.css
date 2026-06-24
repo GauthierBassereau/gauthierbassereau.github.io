@@ -71,8 +71,9 @@ img {
   display: inline-block;
   font-family: var(--serif);
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.1;
+  letter-spacing: .035em;
   text-decoration: none;
 }
 
@@ -186,7 +187,7 @@ img {
 .project-info h2 {
   margin: 0;
   font-family: var(--serif);
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: 0;
