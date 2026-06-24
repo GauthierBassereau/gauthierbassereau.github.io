@@ -53,7 +53,7 @@ img {
 }
 
 .site-header {
-  padding: 42px 0 0;
+  padding: 56px 0 0;
 }
 
 .site-nav {
@@ -132,16 +132,16 @@ img {
 
 .project-row {
   display: grid;
-  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-columns: 190px minmax(0, 1fr);
   gap: 26px;
   padding: 30px 0;
   border-bottom: 1px solid var(--line);
+  align-items: center;
 }
 
 .project-thumb {
   display: block;
   overflow: hidden;
-  align-self: start;
   aspect-ratio: 1 / 1;
   border: 1px solid var(--line);
   border-radius: 6px;
