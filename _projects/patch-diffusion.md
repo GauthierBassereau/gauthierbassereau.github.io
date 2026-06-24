@@ -12,8 +12,8 @@ tags:
   - Diffusion Forcing
   - DINOv2
   - BridgeData V2
-  - Robot video
   - World models
+  - LeRobot
 metrics:
   - 400M parameters
   - 40-frame rollouts

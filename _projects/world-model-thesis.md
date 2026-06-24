@@ -14,6 +14,7 @@ tags:
   - DINOv2
   - Planning
   - Large-scale datasets
+  - LeRobot
 metrics:
   - 400M parameters
   - 1,000h passive video
@@ -23,6 +24,8 @@ links:
     url: https://github.com/GauthierBassereau/World-Model
   - label: Thesis
     url: https://github.com/GauthierBassereau/World-Model/blob/main/thesis/thesis.pdf
+  - label: LeRobot
+    url: https://github.com/huggingface/lerobot
 ---
 <!--more-->
 

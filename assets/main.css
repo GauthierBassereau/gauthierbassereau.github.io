@@ -135,9 +135,31 @@ img {
   display: grid;
   grid-template-columns: 190px minmax(0, 1fr);
   gap: 26px;
-  padding: 30px 0;
+  position: relative;
+  margin: 0 -12px;
+  padding: 30px 12px;
   border-bottom: 1px solid var(--line);
+  border-radius: 6px;
   align-items: center;
+  transition: background-color .16s ease;
+}
+
+.project-row:hover,
+.project-row:focus-within {
+  background-color: rgba(21, 21, 21, .035);
+}
+
+.project-row__link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.project-row__link:focus-visible {
+  outline: 2px solid rgba(11, 107, 99, .55);
+  outline-offset: -2px;
 }
 
 .project-thumb {
@@ -147,7 +169,6 @@ img {
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #eeeae0;
-  text-decoration: none;
 }
 
 .project-thumb img {
@@ -174,6 +195,7 @@ img {
 }
 
 .project-info {
+  position: relative;
   min-width: 0;
 }
 
@@ -191,10 +213,6 @@ img {
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: 0;
-}
-
-.project-info h2 a {
-  text-decoration: none;
 }
 
 .project-summary {
@@ -230,12 +248,9 @@ img {
 }
 
 .project-links a {
+  position: relative;
+  z-index: 2;
   color: var(--muted);
-}
-
-.project-links .primary-link {
-  color: var(--ink);
-  font-weight: 600;
 }
 
 /* Post page */
@@ -476,7 +491,7 @@ img {
   .project-row {
     grid-template-columns: 1fr;
     gap: 16px;
-    padding: 26px 0;
+    padding: 26px 12px;
   }
 
   .project-thumb {
