@@ -99,8 +99,8 @@ img {
 }
 
 .intro {
-  max-width: 720px;
-  padding: 52px 0;
+  max-width: 650px;
+  padding: 28px 0 46px;
 }
 
 .intro h1 {
@@ -116,7 +116,7 @@ img {
   margin: 0;
   color: var(--muted);
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
 .intro-opportunity {
@@ -479,7 +479,7 @@ img {
   }
 
   .intro {
-    padding: 34px 0;
+    padding: 24px 0 36px;
   }
 
   .intro h1 {
