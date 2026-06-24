@@ -5,7 +5,7 @@ date: 2026-06-24
 summary: A 24-hour Hack the World(s) project adapting EB-JEPA into an action-conditioned latent world model for Hamlyn surgical wrist-camera video.
 home_rank: 2
 eyebrow: Hackathon
-thumbnail: /assets/images/surgical-eb-jepa/thumbnail.png
+thumbnail: /assets/images/surgical-eb-jepa/thumbnail.jpeg
 thumbnail_alt: Montage of Open-H healthcare robotics video frames including surgical and ultrasound scenes
 impact: Adapted EB-JEPA to surgical robot video with proprioceptive conditioning, autoregressive latent rollout, and decoder-based LPIPS evaluation.
 tags:
