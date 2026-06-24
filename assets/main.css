@@ -69,6 +69,7 @@ img {
 
 .site-title {
   display: inline-block;
+  color: var(--accent);
   font-family: var(--serif);
   font-size: 26px;
   font-weight: 500;
