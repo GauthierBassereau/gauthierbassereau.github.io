@@ -45,6 +45,9 @@
   <footer class="site-footer">
     <p class="last-updated">Last updated: {{ site.time | date: "%B %-d, %Y" }}</p>
   </footer>
+  {% if page.url == "/" %}
+  <script src="{{ '/assets/project-thumbnails.js' | relative_url }}" defer></script>
+  {% endif %}
   </body>
 
 </html>
