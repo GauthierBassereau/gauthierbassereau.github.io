@@ -24,8 +24,7 @@ title: Home
 <div class="project-thumb{% if is_gif_thumbnail %} project-thumb--gif{% endif %}">
 {% if post.thumbnail %}
 {% if is_gif_thumbnail %}
-<img class="project-thumb__still" src="{{ still_thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async">
-<img class="project-thumb__animated" src="{{ post.thumbnail | relative_url }}" alt="" aria-hidden="true" decoding="async">
+<img src="{{ still_thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async" data-still-src="{{ still_thumbnail | relative_url }}" data-animated-src="{{ post.thumbnail | relative_url }}">
 {% else %}
 <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async">
 {% endif %}
