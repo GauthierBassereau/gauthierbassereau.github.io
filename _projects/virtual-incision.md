@@ -3,7 +3,7 @@ layout: post
 title: Learning Bimanual Needle Manipulation from Demonstrations
 date: 2024-09-10
 summary: Built and deployed an ACT-style visuomotor policy for autonomous needle pickup and hand-off on a dual-arm surgical robot.
-home_rank: 4
+home_rank: 5
 eyebrow: Research Internship
 thumbnail: /assets/images/virtual-incision/thumbnail.jpeg
 thumbnail_alt: MIRA dual-arm surgical robot above a surgical training model

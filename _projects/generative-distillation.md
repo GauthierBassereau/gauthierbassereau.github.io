@@ -12,7 +12,6 @@ tags:
   - Diffusion
   - Distillation
   - DMD
-  - PyTorch
 metrics:
   - 1-step generator
   - DDPM teacher

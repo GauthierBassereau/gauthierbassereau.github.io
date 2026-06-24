@@ -11,7 +11,6 @@ impact: Adapted EB-JEPA to surgical robot video with proprioceptive conditioning
 tags:
   - JEPA
   - World models
-  - Robotics
   - Surgical video
   - Energy-based models
 metrics:
