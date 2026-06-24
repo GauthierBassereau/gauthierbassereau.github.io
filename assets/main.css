@@ -69,11 +69,21 @@ img {
 
 .site-title {
   display: inline-block;
+  margin: 0;
   font-family: var(--serif);
   font-size: 26px;
   font-weight: 600;
   line-height: 1.1;
   text-decoration: none;
+}
+
+.site-title a {
+  text-decoration: none;
+}
+
+.home .site-title {
+  font-size: 36px;
+  line-height: 1.05;
 }
 
 .site-subtitle {
@@ -97,24 +107,45 @@ img {
 }
 
 .intro {
-  max-width: 720px;
-  padding: 42px 0 30px;
+  max-width: 760px;
+  padding: 36px 0 30px;
 }
 
-.intro h1 {
-  margin: 0 0 12px;
-  font-family: var(--serif);
-  font-size: 25px;
+.intro-role {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 18px;
   font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: 0;
+  line-height: 1.45;
 }
 
 .intro-copy {
   margin: 0;
   color: var(--muted);
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.intro-status {
+  margin: 15px 0 0;
+  color: var(--accent);
+  font: 12px/1.45 var(--mono);
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: var(--muted);
+  font: 12px/1.2 var(--mono);
+  text-transform: uppercase;
 }
 
 .content {
@@ -123,7 +154,7 @@ img {
 
 /* Project index */
 .project-list {
-  border-top: 1px solid var(--line);
+  border-top: 0;
 }
 
 .project-row {
@@ -464,8 +495,16 @@ img {
     padding: 30px 0 24px;
   }
 
-  .intro h1 {
-    font-size: 25px;
+  .home .site-title {
+    font-size: 32px;
+  }
+
+  .intro-role {
+    font-size: 17px;
+  }
+
+  .intro-copy {
+    font-size: 16px;
   }
 
   .project-row {

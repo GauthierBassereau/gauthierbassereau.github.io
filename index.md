@@ -4,6 +4,10 @@ title: Home
 ---
 {% assign projects = site.projects | sort: "home_rank" %}
 
+<header class="section-heading">
+<h2>Selected Work</h2>
+</header>
+
 <section class="project-list" aria-label="Projects">
 {% for post in projects %}
 <article class="project-row">

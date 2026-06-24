@@ -14,7 +14,11 @@
   <header class="site-header">
     <nav class="site-nav" aria-label="Primary">
       <div class="site-identity">
+        {% if page.url == "/" %}
+        <h1 class="site-title"><a href="/">Gauthier Bassereau</a></h1>
+        {% else %}
         <a class="site-title" href="/">Gauthier Bassereau</a>
+        {% endif %}
         <!-- <p class="site-subtitle">Research Engineer in Robotics and Machine Learning</p> -->
       </div>
       <div class="site-links">
@@ -27,12 +31,13 @@
     </nav>
 
     {% if page.url == "/" %}
-    <section class="intro" aria-labelledby="intro-title">
-      <!-- <h1 id="intro-title">Robotics and machine learning projects.</h1> -->
+    <section class="intro" aria-label="Profile summary">
+      <p class="intro-role">Robotics and machine learning research engineer.</p>
       <p class="intro-copy">
-        Research Engineer in Robotics and Machine Learning, interested in world models, planning under uncertainty and
-        continual learning. Looking for work opportunities.
+        I build robot world models for action-conditioned prediction, uncertainty-aware planning, and continual
+        learning.
       </p>
+      <p class="intro-status">Open to robotics and machine learning internships or research engineering roles.</p>
     </section>
     {% endif %}
   </header>
