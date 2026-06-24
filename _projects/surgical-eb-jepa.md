@@ -5,8 +5,8 @@ date: 2026-06-24
 summary: A 24-hour Hack the World(s) project adapting EB-JEPA into an action-conditioned latent world model for Hamlyn surgical wrist-camera video.
 home_rank: 2
 eyebrow: Hackathon
-thumbnail: /assets/images/surgical-eb-jepa/archi-schema-eb-jepa.png
-thumbnail_alt: EB-JEPA diagram for image, video, action-conditioned video, and planning setups
+thumbnail: /assets/images/surgical-eb-jepa/dataset.png
+thumbnail_alt: Montage of Open-H healthcare robotics video frames including surgical and ultrasound scenes
 impact: Adapted EB-JEPA to surgical robot video with proprioceptive conditioning, autoregressive latent rollout, and decoder-based LPIPS evaluation.
 tags:
   - JEPA
@@ -28,136 +28,111 @@ links:
 ---
 <!--more-->
 
-At [Hack the World(s)](https://hacktheworlds.fr), a 24-hour world-model hackathon held on June 19-20, 2026, our team forked [EB-JEPA](https://github.com/Trick5t3r/eb_jepa) and turned its action-conditioned video example into a small surgical world-model prototype. The goal was deliberately narrow: take robot wrist-camera video, encode it into a latent state, condition future prediction on proprioception, and evaluate whether the learned latent dynamics survive autoregressive rollout.
+At [Hack the World(s)](https://hacktheworlds.fr), a 24-hour world-model hackathon held on June 19-20, 2026, our team forked [EB-JEPA](https://github.com/Trick5t3r/eb_jepa) and adapted its action-conditioned example to surgical robot video. The objective was not to produce a general surgical model. We wanted a compact test of whether a JEPA-style latent predictor could roll forward real wrist-camera observations when conditioned on robot proprioception.
 
-The source repository is here:
+The source code is here:
 [GauthierBassereau/eb_jepa_hacktheworlds](https://github.com/GauthierBassereau/eb_jepa_hacktheworlds).
+
+#### Why JEPA here?
+
+For this setting, the interesting property of JEPA is not that it avoids pixel reconstruction in the abstract. It is that a surgical frame contains many visually dominant nuisances: specularities, tissue texture, endoscopic lighting, compression artifacts, partial tool visibility. Predicting in representation space gives the model a chance to focus capacity on dynamics rather than RGB detail, while still leaving a latent cost that could later be used for planning.
+
+The action-conditioned objective is simple:
+
+<div class="technical-equation">
+  <code>z_t = f_theta(x_t)</code><br>
+  <code>z_hat_(t+1) = g_phi(z_t, a_t)</code><br>
+  <code>L_pred = ||z_hat_(t+1) - sg(z_(t+1))||^2</code>
+</div>
+
+The energy-based view remains one reason JEPA is attractive for world models: the learned cost ranks whether a predicted latent future is compatible with the observation and action. We did not use it for planning in this project; the hackathon scope was representation prediction and rollout evaluation.
 
 <figure class="media-block media-block--wide">
   <img src="/assets/images/surgical-eb-jepa/archi-schema-eb-jepa.png" alt="EB-JEPA architecture diagram showing image, video, action-conditioned video, and planning settings">
-  <figcaption>EB-JEPA progression from image representation learning to video prediction, action-conditioned video prediction, and planning. Our hackathon project focused on the action-conditioned video case.</figcaption>
+  <figcaption>EB-JEPA progression from image representation learning to action-conditioned video prediction and planning. We only implemented the action-conditioned video part.</figcaption>
 </figure>
 
-#### Why JEPA for surgical video?
+#### Loss and collapse prevention
 
-The tempting baseline for robot video is generative: train a model to reconstruct or predict future pixels. That is expensive and often misaligned with control. A surgical wrist camera contains specular highlights, smoke, tool reflections, tissue texture, compression artifacts, and endoscopic lighting changes. Many of those pixels are visually salient but not equally important for predicting the effect of a tool motion.
-
-JEPA changes the target. Instead of training a model to generate `x_(t+1)` in RGB space, an encoder maps frames into a representation:
-
-<div class="technical-equation">
-  <code>z_t = f_theta(x_t)</code>
-</div>
-
-and a predictor learns the next representation:
-
-<div class="technical-equation">
-  <code>z_hat_(t+1) = g_phi(z_t, a_t)</code>
-</div>
-
-The training cost compares `z_hat_(t+1)` with the encoded target `z_(t+1)`, not with the raw frame. In the action-conditioned setting, this is exactly the world-model interface I wanted to test: if the robot state and action are enough to predict the next latent, the model has learned something closer to controllable dynamics than image compression.
-
-The "energy-based" part is the cost view. The model does not need to normalize a likelihood over all possible future images. It assigns low energy to compatible pairs and high energy to incompatible ones:
-
-<div class="technical-equation">
-  <code>E(x_t, a_t, x_(t+1)) = C(g_phi(f_theta(x_t), e(a_t)), f_theta(x_(t+1)))</code>
-</div>
-
-This is useful for planning because the same cost can, in principle, rank candidate futures or actions in latent space. But it creates a degenerate solution: the encoder can map every image to the same constant vector, making prediction trivial. EB-JEPA prevents that collapse with regularizers that keep representation dimensions active, decorrelated, temporally structured, and predictive of actions.
-
-The objective we used is therefore closer to:
+The prediction loss alone is underconstrained. If the encoder maps every frame to a constant vector, the predictor becomes perfect and the representation is useless. We therefore stayed close to the VICReg-style regularization already implemented in EB-JEPA:
 
 <div class="technical-equation">
   <code>L = L_pred + lambda_cov L_cov + lambda_std L_std + lambda_sim L_sim + lambda_idm L_idm</code>
 </div>
 
-where `L_pred` is the latent prediction loss, `L_cov` and `L_std` are variance/covariance anti-collapse terms, `L_sim` constrains temporal representation consistency, and `L_idm` trains an inverse-dynamics head to recover the action between two latents.
+`L_std` keeps representation dimensions above a minimum variance, `L_cov` penalizes redundant coordinates, `L_sim` constrains temporal smoothness, and `L_idm` trains an inverse-dynamics head to recover the action between two latents. The inverse-dynamics term is particularly relevant here because action conditioning is the whole reason this is a world-model experiment rather than video SSL.
 
-#### Dataset interface
+SIGReg would have been a reasonable alternative collapse-prevention route, especially because it avoids some of the batch-statistics machinery of VICReg-style objectives. In 24 hours we did not have time to implement and validate it cleanly, so the experiments below only ablate the existing EB-JEPA regularizer terms.
 
-We used the [PhysicalAI-Robotics-Open-H-Embodiment](https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-Open-H-Embodiment) dataset, specifically the `Surgical/hamlyn/suturing_2` subset. The repository adds a lightweight Open-H reader in `eb_jepa/datasets/open_h` rather than depending on the full LeRobot stack. It reads episode metadata, Parquet proprioception tables, and MP4 camera streams directly.
+#### Dataset choice
 
-Each training window contains:
+We used the [PhysicalAI-Robotics-Open-H-Embodiment](https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-Open-H-Embodiment) dataset, specifically `Surgical/hamlyn/suturing_2`. This subset contains 186 teleoperated dVRK dual-loop suturing trajectories, about 1.19 hours, on ex-vivo porcine tissue with bimanual PSM arms.
+
+<figure class="media-block media-block--wide">
+  <img src="/assets/images/surgical-eb-jepa/dataset.png" alt="Montage of Open-H healthcare robotics frames">
+  <figcaption>Open-H contains varied healthcare robotics video. We used the Hamlyn dVRK suturing subset because it is real, action-logged, and single-embodiment.</figcaption>
+</figure>
+
+The subset was a practical choice. We needed one robot embodiment and one action space; there was no time to build an architecture that normalizes across different robot morphologies or control conventions. Several candidate datasets also had camera motion that was not logged as an action, which makes the visual transition hard to attribute in an action-conditioned model. The Hamlyn subset is not simulated, has realistic surgical noise, and provides synchronized video plus 16-D bimanual Cartesian proprioception.
+
+Our loader reads the LeRobot-style episode metadata, Parquet proprioception tables, and MP4 streams directly. Each sample contains:
 
 - `17` wrist-camera RGB frames;
-- source video sampled from `30 Hz` down to `5 Hz`;
+- source video sampled from `30 Hz` to `5 Hz`;
 - frames resized to `128 x 128`;
-- a 32-D action-conditioning vector for each transition;
+- a 32-D transition descriptor;
 - complete held-out episodes for validation and evaluation.
 
-The action vector is not a learned command abstraction. It is the concatenation:
+The action vector is:
 
 <div class="technical-equation">
   <code>a_t = [proprio_t, proprio_(t+1)] in R^32</code>
 </div>
 
-This is a hackathon-friendly choice: the dataset already exposes robot state, and the paired current/next proprioception gives the predictor a compact description of the physical transition it should explain. It is not yet the same as commanding a robot with an externally chosen action, but it is a useful first action-conditioned dynamics problem.
+This is not a deployable command interface. We used it because the second arm is not always visible from the selected wrist camera. A relative image-space or single-arm action would make right-arm motion partly unobservable. Giving both current and next bimanual proprioception lets the predictor infer the hidden arm configuration relative to the visible left-arm view.
 
-Complete episodes are held out, and proprioception normalization statistics are fit only on the training episodes. That detail matters: if normalization sees held-out trajectories, the evaluation is still numerically subtle leakage even when the frames themselves are excluded.
+#### Evaluation first
 
-#### Baseline model
+The JEPA itself is trained only in latent space. For evaluation, we freeze the JEPA and train a small RGB decoder from latent states to frames. This does not make the main model generative; it gives us a way to visualize rollouts and compute LPIPS on decoded predictions.
 
-The baseline stays close to the original action-conditioned EB-JEPA example:
+Evaluation compares two modes:
+
+| Mode | Context used for each future prediction | What it measures |
+|---|---|---|
+| Clean context | real encoded frames | teacher-forced next-latent quality |
+| Autoregressive | generated latent history | compounding error during rollout |
+
+The clean/autoregressive gap is the metric I cared about most. A one-step predictor can look reasonable while failing as soon as its own latents become context.
+
+<figure class="media-block media-block--wide">
+  <img src="/assets/images/surgical-eb-jepa/eval_ep15.gif" alt="Decoded evaluation rollout showing ground truth, autoregressive prediction, and clean-context prediction">
+  <figcaption>Decoded held-out rollout: ground truth, fully autoregressive prediction, and clean-context prediction.</figcaption>
+</figure>
+
+#### Baseline architecture
+
+We first reproduced the action-conditioned EB-JEPA baseline as directly as possible:
 
 - IMPALA-style image encoder;
 - latent dimension `512`;
 - global latent format `[B, D, T, 1, 1]`;
 - GRU predictor;
 - `8`-step autoregressive training;
-- VC/IDM/temporal-similarity regularization;
-- AdamW with cosine warmup;
-- bfloat16 autocast;
-- batch size `384`;
-- `24` training epochs.
+- AdamW, cosine warmup, bfloat16 autocast;
+- batch size `384`, `24` epochs.
 
-The important architectural constraint is the global latent. We did not try to build a dense patch-space surgical model during the hackathon. Each frame becomes one 512-D state. That makes the experiment cheap enough to iterate overnight, but it also means the RGB decoder later has to hallucinate spatial details from a heavily compressed state.
+This global latent is a severe bottleneck, but it made the project runnable during the hackathon. A dense patch-space model would be more appropriate for surgical scenes, but it would also have changed the scope completely.
 
-#### Transformer predictor
+We then ran independent ablations. Each row below changes one factor relative to the baseline; the rows are not cumulative.
 
-The most useful modification was replacing the GRU predictor with a small causal Transformer. The implementation adds `ActionConditionedTransformerPredictor` and an `ActionSequenceEncoder` in `eb_jepa/architectures.py`.
+The two architecture variants were:
 
-The best configuration used:
+- **Transformer predictor:** 4-layer causal Transformer, width `512`, 8 heads, AdaLN-Zero action conditioning, history size `4`, and rollout starting from one real seed frame.
+- **DINOv3 encoder:** `facebook/dinov3-convnext-tiny-pretrain-lvd1689m`, projected back to the EB-JEPA global latent interface.
 
-- depth `4`;
-- hidden dimension `512`;
-- `8` attention heads;
-- MLP dimension `2048`;
-- action embedding dimension `512`;
-- AdaLN-Zero conditioning from the embedded proprioception;
-- history size `4`;
-- one real seed frame before rollout history grows with predictions.
+#### Results
 
-That last point is important. The original library assumed sequence predictors start from a full context window. We changed `eb_jepa/jepa.py` so autoregressive rollout can start from one real latent and then append predicted latents one by one. This matches the evaluation question more honestly: after the first frame, the model has to live with its own state estimates.
-
-The best Transformer run also disabled the temporal similarity term (`W_Sim=0`). I would not interpret it as a pure architecture ablation. It is better understood as an architecture-plus-objective choice: the Transformer reduced rollout drift when trained without a one-step temporal similarity pressure that looked good locally but increased the clean-context/autoregressive gap.
-
-#### DINOv3 encoder attempt
-
-We also tried replacing the IMPALA encoder with `facebook/dinov3-convnext-tiny-pretrain-lvd1689m`. The adapter takes pretrained ConvNeXt features and projects them back into the standard EB-JEPA global latent interface, so the rest of the system can stay unchanged.
-
-The motivation was obvious: a pretrained visual encoder should provide more semantic features than a small encoder trained from scratch on one surgical subset. In practice, it was not a free win. DINOv3 improved the clean/autoregressive gap relative to the baseline, but did not dominate the horizon LPIPS metrics. For a 24-hour project, the Transformer predictor was the cleaner result because it attacked the observed failure mode directly: compounding latent error.
-
-#### Pixel evaluation without pixel training
-
-JEPA training is latent-only. Pixels re-enter only after training, when the JEPA is frozen and a small RGB decoder is trained from latent states to frames. The decoder is deliberately separate from the representation objective:
-
-<div class="technical-equation">
-  <code>z_t -> decoder(z_t) -> x_hat_t</code>
-</div>
-
-This lets us inspect rollouts and compute LPIPS in image space without turning the main model into a pixel generator. It also keeps the metric honest about what it measures. LPIPS depends on decoder quality, so absolute numbers should not be read as photorealistic forecasting scores. The relative comparison between clean-context and autoregressive prediction is more informative.
-
-Evaluation uses two modes:
-
-| Mode | Context used for each future prediction | What it measures |
-|---|---|---|
-| Clean context | real encoded frames | one-step latent prediction quality under ideal context |
-| Autoregressive | generated latent history | error accumulation during rollout |
-
-The gap between the two is the cost of using the model as a world model rather than as a teacher-forced next-frame predictor.
-
-#### Ablations
-
-Lower LPIPS is better. `Gap Clean/AR` is the extra LPIPS paid by using generated context instead of clean encoded context. `Mean perf. change` is the spreadsheet's relative average versus the baseline across AR LPIPS, gap, and horizon columns.
+Lower LPIPS is better. `Gap Clean/AR` is the additional LPIPS from using generated latent context instead of clean encoded context.
 
 | Run | AR LPIPS | Gap Clean/AR | LPIPS @ 0.2s | LPIPS @ 1s | LPIPS @ 2s | Mean perf. change |
 |---|---:|---:|---:|---:|---:|---:|
@@ -170,25 +145,15 @@ Lower LPIPS is better. `Gap Clean/AR` is the extra LPIPS paid by using generated
 | DINOv3 Encoder | 0.478 | 0.014 | 0.450 | 0.466 | 0.475 | +4.7% |
 | Transformer Predictor | 0.476 | 0.007 | 0.435 | 0.438 | 0.450 | +14.9% |
 
-The collapse run is the sanity check. Without the regularization terms, AR LPIPS moves from `0.470` to `0.575`, which is large enough to show that the cost alone is not preventing a useless representation.
+The no-regularization run is the main sanity check: without the VICReg-style terms, AR LPIPS degrades from `0.470` to `0.575`. That is enough to show that collapse prevention is not optional.
 
-The `W_Sim=0` result is more subtle. It gives the best mean AR LPIPS, but also increases the clean/autoregressive gap from `0.020` to `0.026`. That is exactly the kind of metric split I care about for world models: a model can look better on short one-step predictions while becoming less stable when its own predictions become context.
+Removing `W_Cov` or `W_Std` reduced the clean/autoregressive gap but worsened absolute rollout quality. My interpretation is that the decoded trajectories become more self-consistent but less informative; the model is not necessarily learning a better state.
 
-The Transformer result is the main takeaway. It does not beat every row on average AR LPIPS, but it cuts the compounding gap to `0.007` and improves 2-second LPIPS from `0.480` to `0.450`. For a surgical video world model, that is the more interesting property. The limiting factor is not only whether the next latent is close; it is whether the representation remains usable after several generated transitions.
+Removing temporal similarity gave the best AR LPIPS in this small table, but increased the clean/autoregressive gap. That looks like a useful warning rather than a clean win: short-horizon metrics and rollout stability are not measuring exactly the same failure mode.
 
-#### What I would change next
+The Transformer predictor is the most interesting result. It does not dominate mean AR LPIPS, but it cuts the clean/autoregressive gap to `0.007` and gives the best 2-second LPIPS. In this setup, temporal prediction architecture looked like a stronger limitation than encoder pretraining.
 
-The prototype is still far from a deployable surgical world model. The action signal is derived from adjacent proprioception rather than from commanded controls, the latent is global rather than spatial, and the RGB decoder is too small to separate representation quality from reconstruction bottlenecks. The dataset is also only one surgical subset, so robustness to camera pose, tissue appearance, tool geometry, and task phase remains untested.
-
-The next version I would build is more explicitly control-oriented:
-
-- represent actions as commandable deltas rather than `[proprio_t, proprio_(t+1)]`;
-- keep spatial tokens instead of compressing each frame to one global vector;
-- evaluate latent distances against task-relevant state changes, not only decoded LPIPS;
-- test planning by optimizing action sequences against a goal embedding;
-- compare clean-context, partially corrupted-context, and fully autoregressive rollout, because real planning operates between those extremes.
-
-The useful result from the hackathon is narrower but real: EB-JEPA can be adapted quickly to a surgical robot video dataset, the anti-collapse terms are not optional, and the dominant failure mode is rollout stability rather than one-step prediction alone.
+This was a 24-hour project, so I would not overclaim the result. It was useful to implement EB-JEPA on a real surgical robotics subset, verify that the regularizers matter, and expose rollout stability as the metric worth optimizing next. Planning, denser latents, better decoder evaluation, and cleaner action interfaces remain open.
 
 [Source code](https://github.com/GauthierBassereau/eb_jepa_hacktheworlds) ·
 [Hack the World(s)](https://hacktheworlds.fr) ·
