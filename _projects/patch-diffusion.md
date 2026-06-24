@@ -3,7 +3,7 @@ layout: post
 title: Patch-Level Diffusion Forcing for Robot Video
 date: 2026-06-24
 summary: Ongoing research extending my DINOv2 latent world model with patch-wise noise for BridgeData V2 robot video prediction and more stable autoregressive rollouts.
-home_rank: 1.5
+home_rank: 0.1
 eyebrow: Ongoing research
 thumbnail: /assets/images/patch-diffusion/thumbnail.png
 thumbnail_alt: BridgeData V2 rollout comparing ground truth, frame-level baseline, and patch-level diffusion model
