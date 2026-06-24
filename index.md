@@ -12,11 +12,18 @@ title: Home
 {% if thumbnail_ext == "gif" %}
 {% assign is_gif_thumbnail = true %}
 {% endif %}
+{% assign still_thumbnail = thumbnail_path %}
+{% if is_gif_thumbnail %}
+{% assign still_thumbnail = post.thumbnail_still | default: "" %}
+{% if still_thumbnail == "" %}
+{% assign still_thumbnail = thumbnail_path | replace: ".gif", "-still.png" | replace: ".GIF", "-still.png" %}
+{% endif %}
+{% endif %}
 <article class="project-row">
 <a class="project-row__link" href="{{ post.url | relative_url }}" aria-label="Read writeup: {{ post.title }}"></a>
 <div class="project-thumb{% if is_gif_thumbnail %} project-thumb--gif{% endif %}">
 {% if post.thumbnail %}
-<img src="{{ post.thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async"{% if is_gif_thumbnail %} data-animated-src="{{ post.thumbnail | relative_url }}"{% endif %}>
+<img src="{{ still_thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async"{% if is_gif_thumbnail %} data-still-src="{{ still_thumbnail | relative_url }}" data-animated-src="{{ post.thumbnail | relative_url }}"{% endif %}>
 {% else %}
 <span class="project-thumb__placeholder">
 Confidential project
