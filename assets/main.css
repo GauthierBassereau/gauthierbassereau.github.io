@@ -176,6 +176,19 @@ img {
   object-position: center;
 }
 
+.project-thumb__animated {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s ease;
+}
+
+.project-row:hover .project-thumb__animated,
+.project-row:focus-within .project-thumb__animated {
+  opacity: 1;
+}
+
 .project-thumb__placeholder {
   display: flex;
   height: 100%;

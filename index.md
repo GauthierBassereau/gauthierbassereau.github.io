@@ -23,7 +23,12 @@ title: Home
 <a class="project-row__link" href="{{ post.url | relative_url }}" aria-label="Read writeup: {{ post.title }}"></a>
 <div class="project-thumb{% if is_gif_thumbnail %} project-thumb--gif{% endif %}">
 {% if post.thumbnail %}
-<img src="{{ still_thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async"{% if is_gif_thumbnail %} data-still-src="{{ still_thumbnail | relative_url }}" data-animated-src="{{ post.thumbnail | relative_url }}"{% endif %}>
+{% if is_gif_thumbnail %}
+<img class="project-thumb__still" src="{{ still_thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async">
+<img class="project-thumb__animated" src="{{ post.thumbnail | relative_url }}" alt="" aria-hidden="true" decoding="async">
+{% else %}
+<img src="{{ post.thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async">
+{% endif %}
 {% else %}
 <span class="project-thumb__placeholder">
 Confidential project
