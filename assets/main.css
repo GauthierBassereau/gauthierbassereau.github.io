@@ -72,9 +72,9 @@ img {
   color: var(--accent);
   font-family: var(--serif);
   font-size: 26px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.1;
-  letter-spacing: .035em;
+  letter-spacing: .03em;
   text-decoration: none;
 }
 
