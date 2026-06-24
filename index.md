@@ -19,12 +19,20 @@ title: Home
 {% assign still_thumbnail = thumbnail_path | replace: ".gif", "-still.png" | replace: ".GIF", "-still.png" %}
 {% endif %}
 {% endif %}
-<article class="project-row">
+<article class="project-row"
+{% if is_gif_thumbnail %}
+data-still-thumbnail="{{ still_thumbnail | relative_url }}"
+data-animated-thumbnail="{{ post.thumbnail | relative_url }}"
+onmouseenter="this.querySelector('.project-thumb img').src=this.dataset.animatedThumbnail"
+onmouseleave="this.querySelector('.project-thumb img').src=this.dataset.stillThumbnail"
+onfocusin="this.querySelector('.project-thumb img').src=this.dataset.animatedThumbnail"
+onfocusout="if (!this.contains(event.relatedTarget)) this.querySelector('.project-thumb img').src=this.dataset.stillThumbnail"
+{% endif %}>
 <a class="project-row__link" href="{{ post.url | relative_url }}" aria-label="Read writeup: {{ post.title }}"></a>
 <div class="project-thumb{% if is_gif_thumbnail %} project-thumb--gif{% endif %}">
 {% if post.thumbnail %}
 {% if is_gif_thumbnail %}
-<img src="{{ still_thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async" data-still-src="{{ still_thumbnail | relative_url }}" data-animated-src="{{ post.thumbnail | relative_url }}">
+<img src="{{ still_thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async">
 {% else %}
 <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.thumbnail_alt }}" loading="lazy" decoding="async">
 {% endif %}
