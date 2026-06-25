@@ -6,7 +6,7 @@ summary: Ongoing research testing whether patch-wise diffusion noise gives a DIN
 home_rank: 0.1
 eyebrow: Ongoing research
 thumbnail: /assets/images/patch-diffusion/thumbnail.gif
-thumbnail_alt: BridgeData V2 rollout comparing ground truth, frame-level baseline, and patch-level diffusion model
+thumbnail_alt: BridgeData V2 rollout comparison between ground truth, thesis baseline, and patch-level diffusion model
 impact: Exploring patch-level corruption as a masked-autoencoder-like training signal for semantic robot video prediction.
 tags:
   - Diffusion Forcing
@@ -38,8 +38,8 @@ This also matches the failures I care about in my own rollouts: objects disappea
 I currently think of this as close in spirit to masked autoencoding, but adapted to a diffusion world model. The model sees a partially unreliable DINOv2 latent grid and has to reconstruct scene-consistent object identity, geometry, and motion from neighboring patches, temporal context, and robot actions.
 
 <figure class="media-block media-block--wide">
-  <img src="/assets/images/patch-diffusion/thumbnail.gif" alt="BridgeData V2 rollout comparing ground truth, frame-level baseline, and patch-level diffusion model">
-  <figcaption>Early BridgeData V2 rollout. The result is still preliminary, but patch-level corruption is already giving more stable object and contact behavior in some held-out sequences.</figcaption>
+  <img src="/assets/images/patch-diffusion/baseline_vs_patch.png" alt="BridgeData V2 rollout comparison between ground truth, thesis baseline, and patch-level diffusion model">
+  <figcaption>Early BridgeData V2 rollout. All rows use the first frame and the evaluation episode actions as context: ground truth, my thesis architecture as the frame-level baseline, and the current patch-level version.</figcaption>
 </figure>
 
 This is very much still in progress. The next goal is to see how far this idea can be pushed for both generation efficiency and training efficiency, and to understand when patch-level diffusion is really useful rather than just a better regularizer.
